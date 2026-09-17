@@ -103,9 +103,13 @@ export default function LessonCard({ lesson, isToday = false, index = 0 }: Lesso
 
   return (
     <div className={cn(
-      "glass-card p-5 mb-5 transition-all duration-300 animate-lesson-card relative overflow-hidden group",
+      "p-5 mb-5 transition-all duration-300 animate-lesson-card relative overflow-hidden group",
+      "bg-white dark:bg-[#1c1c1e] rounded-[24px]",
+      "border-2 border-[#007AFF] dark:border-[#0a84ff]",
+      "shadow-[0_8px_0px_#0056b3,0_15px_30px_rgba(0,122,255,0.25)] dark:shadow-[0_8px_0px_#004499,0_15px_30px_rgba(10,132,255,0.4)]",
+      "active:translate-y-[6px] active:shadow-[0_2px_0px_#0056b3,0_5px_15px_rgba(0,122,255,0.3)] dark:active:shadow-[0_2px_0px_#004499,0_5px_15px_rgba(10,132,255,0.5)]",
       staggerClass,
-      isToday && status === 'ongoing' && "ring-2 ring-blue-400 shadow-[0_8px_30px_rgba(0,122,255,0.2)] transform scale-[1.02]",
+      isToday && status === 'ongoing' && "ring-4 ring-[#007AFF]/50 transform scale-[1.02]",
       isToday && status === 'completed' && "opacity-50 grayscale hover:grayscale-0"
     )}>
       

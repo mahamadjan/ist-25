@@ -6,7 +6,7 @@ export default function Header() {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <header className="sticky top-0 z-50 glass-header px-4 py-4 flex items-center justify-between">
+    <header className="sticky top-0 z-50 bg-white/70 dark:bg-[#1c1c1e]/70 backdrop-blur-3xl backdrop-saturate-200 border-b border-black/10 dark:border-white/10 px-4 py-4 flex items-center justify-between">
       <div className="flex items-center gap-3">
         <div className="bg-[#007AFF] text-white p-2 rounded-xl shadow-[0_5px_15px_rgba(0,122,255,0.4)] animate-logo-float">
           <Leaf className="w-5 h-5" />

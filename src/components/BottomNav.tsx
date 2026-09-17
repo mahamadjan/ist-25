@@ -11,7 +11,7 @@ export default function BottomNav() {
   ];
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 glass-nav pb-safe z-50">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white/70 dark:bg-[#1c1c1e]/70 backdrop-blur-3xl backdrop-saturate-200 border-t border-black/10 dark:border-white/10 pb-safe z-50">
       <ul className="flex items-center justify-around p-2">
         {navItems.map(({ to, icon: Icon, label }) => (
           <li key={to} className="flex-1">
