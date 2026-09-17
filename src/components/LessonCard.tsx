@@ -174,7 +174,7 @@ export default function LessonCard({ lesson, isToday = false, index = 0 }: Lesso
         )}
       </div>
 
-      {isToday && status === 'ongoing' && userId && (
+      {userId && (
         <div className="mt-4 animate-in fade-in zoom-in duration-300">
           {isCheckedIn ? (
             <div className="w-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 font-bold p-3 rounded-xl flex justify-center items-center gap-2 border border-emerald-100 dark:border-emerald-800">
