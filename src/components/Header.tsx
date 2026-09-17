@@ -8,11 +8,11 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 glass-header px-4 py-4 flex items-center justify-between">
       <div className="flex items-center gap-3">
-        <div className="bg-[#007AFF] text-white p-2 rounded-xl shadow-sm">
+        <div className="bg-[#007AFF] text-white p-2 rounded-xl shadow-[0_5px_15px_rgba(0,122,255,0.4)] animate-logo-float">
           <Leaf className="w-5 h-5" />
         </div>
         <div className="flex flex-col">
-          <h1 className="text-xl font-bold text-black dark:text-white leading-tight">
+          <h1 className="text-xl font-black leading-tight animate-text-shimmer">
             ИСТ-25
           </h1>
           <span className="text-[11px] font-medium text-gray-500 uppercase tracking-widest">
