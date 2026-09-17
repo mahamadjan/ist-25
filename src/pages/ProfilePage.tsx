@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { Session } from '@supabase/supabase-js';
-import { User, MapPin, LogOut } from 'lucide-react';
+import { MapPin, LogOut } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Database } from '../types/supabase';
 import Avatar from '../components/Avatar';
