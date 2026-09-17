@@ -174,13 +174,17 @@ export default function ProfilePage() {
         throw new Error('Выбранный файл пустой или поврежден.');
       }
 
+      // На мобильных устройствах файл может удаляться из памяти до завершения загрузки.
+      // Поэтому мы сначала конвертируем его в ArrayBuffer.
+      const arrayBuffer = await file.arrayBuffer();
+
       // Safe file extension handling
       const fileExt = file.name.split('.').pop() || 'jpeg';
       const filePath = `${session?.user.id}-${Date.now()}.${fileExt}`;
 
       const { error: uploadError } = await supabase.storage
         .from('avatars')
-        .upload(filePath, file, {
+        .upload(filePath, arrayBuffer, {
           cacheControl: '3600',
           upsert: true,
           contentType: file.type || 'image/jpeg'
