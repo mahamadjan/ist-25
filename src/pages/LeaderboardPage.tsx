@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabase';
 import { Trophy, Medal, Crown } from 'lucide-react';
 import { Database } from '../types/supabase';
 import { cn } from '../lib/utils';
+import Avatar from '../components/Avatar';
 
 type Profile = Database['public']['Tables']['profiles']['Row'];
 
@@ -75,20 +76,9 @@ export default function LeaderboardPage() {
                 {getRankBadge(index)}
               </div>
               
-              <div className="relative">
-                {student.avatar_url ? (
-                  <img src={student.avatar_url} alt={student.full_name} className="w-12 h-12 rounded-full object-cover border-2 border-white dark:border-slate-800 shadow-sm" />
-                ) : (
-                  <div className="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-lg font-bold text-slate-500 dark:text-slate-400 border-2 border-white dark:border-slate-800 shadow-sm">
-                    {student.full_name.charAt(0)}
-                  </div>
-                )}
-                {index === 0 && (
-                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full border-2 border-white dark:border-slate-900" />
-                )}
-              </div>
+              <Avatar url={student.avatar_url} name={student.full_name} points={student.points || 0} size="md" />
               
-              <div className="flex-1 min-w-0">
+              <div className="flex-1 min-w-0 ml-2">
                 <div className="flex items-center gap-2">
                   <h3 className="font-bold text-slate-800 dark:text-white truncate">
                     {student.full_name}

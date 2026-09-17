@@ -4,6 +4,7 @@ import { Session } from '@supabase/supabase-js';
 import { User, MapPin, LogOut } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Database } from '../types/supabase';
+import Avatar from '../components/Avatar';
 
 type Profile = Database['public']['Tables']['profiles']['Row'];
 
@@ -205,15 +206,9 @@ export default function ProfilePage() {
         <div className="flex justify-between items-start mb-6">
           <div className="flex items-center gap-4">
             <div className="relative group">
-              {profile?.avatar_url ? (
-                <img src={profile.avatar_url} alt="Аватар" className="w-16 h-16 rounded-2xl object-cover border-2 border-emerald-100 dark:border-emerald-800" />
-              ) : (
-                <div className="w-16 h-16 rounded-2xl bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center border border-emerald-200 dark:border-emerald-800">
-                  <User className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
-                </div>
-              )}
+              <Avatar url={profile?.avatar_url} name={profile?.full_name || 'Студент'} points={profile?.points || 0} size="lg" />
               
-              <label className="absolute inset-0 flex items-center justify-center bg-black/50 text-white rounded-2xl opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity text-xs font-bold text-center p-1">
+              <label className="absolute inset-0 flex items-center justify-center bg-black/50 text-white rounded-full opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity text-xs font-bold text-center p-1 z-20">
                 Изменить
                 <input
                   type="file"
