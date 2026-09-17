@@ -33,23 +33,32 @@ export default function AdminPage() {
   };
   const [formData, setFormData] = useState(initialForm);
 
+  const [isAdmin, setIsAdmin] = useState(false);
+
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
+      if (session) checkAdmin(session.user.id);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
+      if (session) checkAdmin(session.user.id);
     });
 
     return () => subscription.unsubscribe();
   }, []);
 
+  const checkAdmin = async (userId: string) => {
+    const { data } = await supabase.from('profiles').select('role').eq('id', userId).single();
+    setIsAdmin(data?.role === 'admin');
+  };
+
   useEffect(() => {
-    if (session) {
+    if (session && isAdmin) {
       fetchLessons();
     }
-  }, [session]);
+  }, [session, isAdmin]);
 
   const fetchLessons = async () => {
     setLoading(true);
@@ -157,13 +166,13 @@ export default function AdminPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] animate-in fade-in zoom-in duration-300">
         <div className="glass-card p-8 rounded-3xl w-full max-w-sm">
-          <h2 className="text-2xl font-bold mb-6 text-center">Вход в панель</h2>
+          <h2 className="text-2xl font-bold mb-6 text-center">Вход для старосты</h2>
           {error && <div className="bg-red-100 text-red-600 p-3 rounded-lg mb-4 text-sm">{error}</div>}
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-1">Email</label>
+              <label className="block text-sm font-medium mb-1">Логин (без @)</label>
               <input 
-                type="email" 
+                type="text" 
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-blue-500 outline-none"
@@ -188,6 +197,26 @@ export default function AdminPage() {
               {authLoading ? 'Вход...' : 'Войти'}
             </button>
           </form>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] animate-in fade-in zoom-in duration-300 px-4 text-center">
+        <div className="glass-card p-8 rounded-3xl w-full max-w-sm border-red-200 dark:border-red-900/30">
+          <div className="w-16 h-16 bg-red-100 dark:bg-red-900/20 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+            <LogOut className="w-8 h-8" />
+          </div>
+          <h2 className="text-xl font-bold mb-2">Доступ закрыт</h2>
+          <p className="text-sm text-slate-500 mb-6">Эта страница доступна только администратору (старосте).</p>
+          <button 
+            onClick={handleLogout}
+            className="w-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold p-3 rounded-xl transition-all"
+          >
+            Выйти из аккаунта
+          </button>
         </div>
       </div>
     );
