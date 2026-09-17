@@ -1,11 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+  }
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+  }
   body {
     /* Emerald / White "Wow" Theme */
     @apply bg-slate-50 text-slate-800 antialiased;
+    font-family: 'Nunito', sans-serif;
     background-image: 
       radial-gradient(at 0% 0%, hsla(152, 100%, 93%, 1) 0, transparent 50%), 
       radial-gradient(at 100% 0%, hsla(162, 100%, 93%, 1) 0, transparent 50%),
@@ -60,3 +71,41 @@
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { @apply bg-emerald-200 dark:bg-slate-700 rounded-full; }
 ::-webkit-scrollbar-thumb:hover { @apply bg-emerald-300 dark:bg-slate-600; }
+
+@layer utilities {
+  .discord-ring-expert {
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 3px dashed rgba(250, 204, 21, 0.8);
+    animation: spin 6s linear infinite;
+  }
+  
+  .discord-ring-legend {
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, #ff00aa, #00ffcc, #ffcc00, #ff00aa);
+    animation: spin 3s linear infinite;
+    -webkit-mask: radial-gradient(transparent 58%, black 62%);
+    mask: radial-gradient(transparent 58%, black 62%);
+    filter: drop-shadow(0 0 10px rgba(255, 0, 170, 0.8));
+  }
+
+  .discord-ring-regular {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid #06b6d4;
+    box-shadow: 0 0 10px #06b6d4, inset 0 0 10px #06b6d4;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .discord-ring-novice {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px dotted #10b981;
+    animation: spin 10s linear infinite reverse;
+  }
+}

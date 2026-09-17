@@ -85,8 +85,8 @@ export default function LeaderboardPage() {
               />
               
               <div className="flex-1 min-w-0 ml-2">
-                <div className="flex items-center gap-2">
-                  <h3 className="font-bold text-slate-800 dark:text-white truncate">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h3 className="font-bold text-slate-800 dark:text-white leading-tight">
                     {student.full_name}
                   </h3>
                   {isMe && (
