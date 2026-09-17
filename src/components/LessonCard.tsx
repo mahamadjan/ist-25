@@ -105,8 +105,7 @@ export default function LessonCard({ lesson, isToday = false, index = 0 }: Lesso
     <div className={cn(
       "ios-card p-5 mb-5 animate-lesson-card relative overflow-hidden group",
       staggerClass,
-      isToday && status === 'ongoing' && "ring-4 ring-[#007AFF]/50 transform scale-[1.02]",
-      isToday && status === 'completed' && "opacity-50 grayscale hover:grayscale-0"
+      isToday && status === 'ongoing' && "ring-4 ring-[#007AFF]/50 transform scale-[1.02]"
     )}>
       
       {/* Мягкое фоновое свечение для текущей пары */}
@@ -137,13 +136,13 @@ export default function LessonCard({ lesson, isToday = false, index = 0 }: Lesso
         )}
         
         {isToday && status.startsWith('Через') && (
-          <span className="text-[11px] font-bold text-teal-700 dark:text-teal-300 bg-teal-50 dark:bg-teal-900/30 border border-teal-100 dark:border-teal-800 px-2.5 py-1 rounded-full uppercase tracking-wider">
+          <span className="text-[11px] font-bold text-[#007AFF] bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 px-2.5 py-1 rounded-full uppercase tracking-wider">
             {status}
           </span>
         )}
 
         {isToday && status === 'completed' && (
-          <span className="text-[11px] font-bold text-slate-500 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full uppercase tracking-wider">
+          <span className="text-[11px] font-bold text-[#007AFF] bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 px-2.5 py-1 rounded-full uppercase tracking-wider">
             Завершено
           </span>
         )}
