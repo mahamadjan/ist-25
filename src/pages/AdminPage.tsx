@@ -66,7 +66,8 @@ export default function AdminPage() {
     e.preventDefault();
     setAuthLoading(true);
     setError('');
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const loginEmail = email.includes('@') ? email : `${email.toLowerCase().trim()}@ist.kg`;
+    const { error } = await supabase.auth.signInWithPassword({ email: loginEmail, password });
     if (error) setError(error.message);
     setAuthLoading(false);
   };

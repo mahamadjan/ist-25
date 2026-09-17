@@ -16,16 +16,22 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const [profileLoaded, setProfileLoaded] = useState(false);
+
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       if (session) fetchProfile(session.user.id);
+      else setProfileLoaded(true);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       if (session) fetchProfile(session.user.id);
-      else setProfile(null);
+      else {
+        setProfile(null);
+        setProfileLoaded(true);
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -34,6 +40,24 @@ export default function ProfilePage() {
   const fetchProfile = async (userId: string) => {
     const { data } = await supabase.from('profiles').select('*').eq('id', userId).single();
     if (data) setProfile(data);
+    setProfileLoaded(true);
+  };
+
+  const handleSaveName = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!session) return;
+    setLoading(true);
+    const { error: profileError } = await supabase.from('profiles').insert({
+      id: session.user.id,
+      full_name: fullName,
+      role: 'student'
+    });
+    if (!profileError) {
+      await fetchProfile(session.user.id);
+    } else {
+      setError(profileError.message);
+    }
+    setLoading(false);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -41,13 +65,15 @@ export default function ProfilePage() {
     setLoading(true);
     setError('');
 
+    const loginEmail = email.includes('@') ? email : `${email.toLowerCase().trim()}@ist.kg`;
+
     if (isLogin) {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { error } = await supabase.auth.signInWithPassword({ email: loginEmail, password });
       if (error) setError(error.message);
     } else {
       // Регистрация
       const { data, error: signUpError } = await supabase.auth.signUp({ 
-        email, 
+        email: loginEmail, 
         password,
         options: {
           data: { full_name: fullName } // Supabase автоматически не пишет в profiles, нужно делать через триггер или руками
@@ -95,13 +121,13 @@ export default function ProfilePage() {
               </div>
             )}
             <div>
-              <label className="block text-sm font-bold mb-1 text-slate-600 dark:text-slate-300">Email</label>
+              <label className="block text-sm font-bold mb-1 text-slate-600 dark:text-slate-300">Логин (без @)</label>
               <input 
-                type="email" 
+                type="text" 
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
-                placeholder="student@ist.kg"
+                placeholder="Например: aibek123"
                 required
               />
             </div>
@@ -134,6 +160,45 @@ export default function ProfilePage() {
               {isLogin ? 'У меня еще нет аккаунта' : 'Уже есть аккаунт? Войти'}
             </button>
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!profileLoaded) {
+    return <div className="p-8 text-center text-slate-500">Загрузка профиля...</div>;
+  }
+
+  if (session && !profile) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] animate-in fade-in zoom-in duration-300 px-4">
+        <div className="glass-card p-6 md:p-8 rounded-3xl w-full max-w-sm">
+          <h2 className="text-xl font-black mb-4 text-center text-slate-800 dark:text-white">
+            Как вас зовут?
+          </h2>
+          <p className="text-sm text-slate-500 text-center mb-6">Пожалуйста, введите ваши имя и фамилию для журнала посещаемости.</p>
+          
+          {error && <div className="bg-red-50 text-red-600 p-3 rounded-xl mb-4 text-sm font-medium border border-red-100">{error}</div>}
+          
+          <form onSubmit={handleSaveName} className="space-y-4">
+            <div>
+              <input 
+                type="text" 
+                value={fullName}
+                onChange={e => setFullName(e.target.value)}
+                className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
+                placeholder="Иванов Иван"
+                required
+              />
+            </div>
+            <button 
+              type="submit" 
+              disabled={loading}
+              className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold p-3.5 rounded-xl transition-all shadow-lg shadow-emerald-500/20 disabled:opacity-70 active:scale-95"
+            >
+              {loading ? 'Сохранение...' : 'Продолжить'}
+            </button>
+          </form>
         </div>
       </div>
     );
