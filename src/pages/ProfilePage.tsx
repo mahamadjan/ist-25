@@ -112,7 +112,7 @@ export default function ProfilePage() {
             <button 
               type="submit" 
               disabled={loading}
-              className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold p-3.5 rounded-xl transition-all shadow-lg shadow-emerald-500/20 disabled:opacity-70 active:scale-95"
+              className="w-full bg-[#007AFF] hover:bg-[#0056b3] text-white font-bold p-3.5 rounded-xl transition-all shadow-md shadow-blue-500/20 disabled:opacity-70 active:scale-95"
             >
               {loading ? 'Загрузка...' : 'Войти'}
             </button>
@@ -151,7 +151,7 @@ export default function ProfilePage() {
             <button 
               type="submit" 
               disabled={loading}
-              className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold p-3.5 rounded-xl transition-all shadow-lg shadow-emerald-500/20 disabled:opacity-70 active:scale-95"
+              className="w-full bg-[#007AFF] hover:bg-[#0056b3] text-white font-bold p-3.5 rounded-xl transition-all shadow-md shadow-blue-500/20 disabled:opacity-70 active:scale-95"
             >
               {loading ? 'Сохранение...' : 'Продолжить'}
             </button>

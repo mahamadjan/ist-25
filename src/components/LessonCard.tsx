@@ -192,10 +192,10 @@ export default function LessonCard({ lesson, isToday = false, index = 0 }: Lesso
               <button 
                 onClick={handleCheckIn}
                 disabled={checkInLoading}
-                className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-bold p-3 rounded-xl transition-all shadow-lg shadow-blue-500/20 disabled:opacity-70 active:scale-95 flex justify-center items-center gap-2"
+                className="w-full bg-[#007AFF] hover:bg-[#0056b3] text-white font-bold p-3 rounded-xl transition-all shadow-md shadow-blue-500/20 disabled:opacity-70 active:scale-95 flex justify-center items-center gap-2"
               >
                 <MapPin className="w-5 h-5" />
-                {checkInLoading ? 'Проверка локации...' : 'Отметиться на паре'}
+                {checkInLoading ? 'Проверка...' : 'Отметиться'}
               </button>
               {checkInError && (
                 <div className="text-xs font-bold text-red-500 text-center flex items-center justify-center gap-1 bg-red-50 dark:bg-red-900/20 p-2 rounded-lg border border-red-100 dark:border-red-900/30">

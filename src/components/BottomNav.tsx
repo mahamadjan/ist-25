@@ -19,19 +19,16 @@ export default function BottomNav() {
               to={to}
               className={({ isActive }) =>
                 cn(
-                  'flex flex-col items-center justify-center py-2 px-1 rounded-2xl transition-all duration-300 relative',
+                  'flex flex-col items-center justify-center py-2 px-1 transition-all duration-300 relative',
                   isActive 
-                    ? 'text-emerald-600 dark:text-emerald-400' 
-                    : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
+                    ? 'text-[#007AFF] dark:text-[#0a84ff]' 
+                    : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
                 )
               }
             >
               {({ isActive }) => (
                 <>
-                  {isActive && (
-                    <div className="absolute inset-0 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl -z-10 animate-in zoom-in duration-200" />
-                  )}
-                  <Icon className={cn("w-6 h-6 mb-1 transition-transform duration-300", isActive && "scale-110")} />
+                  <Icon className={cn("w-6 h-6 mb-1 transition-transform duration-300", isActive && "scale-105")} />
                   <span className={cn("text-[10px] font-bold transition-all duration-300", isActive ? "opacity-100" : "opacity-70")}>
                     {label}
                   </span>

@@ -14,40 +14,36 @@
     --foreground: 210 40% 98%;
   }
   body {
-    /* Emerald / White "Wow" Theme */
-    @apply bg-slate-50 text-slate-800 antialiased;
-    font-family: 'Nunito', sans-serif;
-    background-image: 
-      radial-gradient(at 0% 0%, hsla(152, 100%, 93%, 1) 0, transparent 50%), 
-      radial-gradient(at 100% 0%, hsla(162, 100%, 93%, 1) 0, transparent 50%),
-      radial-gradient(at 100% 100%, hsla(152, 100%, 93%, 1) 0, transparent 50%),
-      radial-gradient(at 0% 100%, hsla(162, 100%, 93%, 1) 0, transparent 50%);
-    background-attachment: fixed;
+    /* iOS Clean Theme */
+    background-color: #f2f2f7; /* iOS System Gray 6 */
+    @apply text-slate-900 antialiased;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
     min-height: 100vh;
   }
   
   .dark body {
-    @apply bg-slate-950 text-slate-100;
-    background-image: 
-      radial-gradient(at 0% 0%, hsla(152, 50%, 10%, 1) 0, transparent 50%), 
-      radial-gradient(at 100% 0%, hsla(162, 50%, 10%, 1) 0, transparent 50%);
+    background-color: #000000; /* iOS True Black */
+    @apply text-white;
   }
 }
 
 /* 
-  To separate from the white background, we use pure white cards 
-  with a soft emerald-tinted shadow and a very light border.
+  iOS Style Cards
 */
 .glass-card {
-  @apply bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/30 rounded-2xl shadow-[0_8px_30px_rgb(16,185,129,0.06)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.3)];
+  @apply bg-white dark:bg-[#1c1c1e] rounded-[20px] shadow-[0_1px_8px_rgba(0,0,0,0.04)] dark:shadow-none;
 }
 
 .glass-header {
-  @apply bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl border-b border-emerald-100/50 dark:border-slate-800/50 shadow-sm;
+  @apply bg-[#f2f2f7]/80 dark:bg-[#000000]/80 backdrop-blur-xl border-b border-black/5 dark:border-white/10;
+  /* iOS translucent header */
+  backdrop-filter: blur(20px) saturate(150%);
 }
 
 .glass-nav {
-  @apply bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-t border-emerald-100/50 dark:border-slate-800/50 shadow-[0_-10px_40px_rgba(16,185,129,0.05)] dark:shadow-[0_-10px_40px_rgba(0,0,0,0.2)];
+  @apply bg-[#f2f2f7]/80 dark:bg-[#000000]/80 backdrop-blur-xl border-t border-black/5 dark:border-white/10;
+  /* iOS Tab Bar */
+  backdrop-filter: blur(20px) saturate(150%);
 }
 
 /* Dynamic floating animation for wow effect */
