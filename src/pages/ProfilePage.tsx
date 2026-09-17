@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { Session } from '@supabase/supabase-js';
-import { MapPin, LogOut, Palette, CheckCircle2 } from 'lucide-react';
+import { LogOut, CheckCircle2, MapPin, Palette } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { cn } from '../lib/utils';
 import { Database } from '../types/supabase';
 import Avatar from '../components/Avatar';
 import { getThemeConfig, getAvailableThemes, PROFILE_THEMES } from '../lib/themes';
