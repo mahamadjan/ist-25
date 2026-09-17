@@ -76,7 +76,13 @@ export default function LeaderboardPage() {
                 {getRankBadge(index)}
               </div>
               
-              <Avatar url={student.avatar_url} name={student.full_name} points={student.points || 0} size="md" />
+              <Avatar 
+                url={student.avatar_url} 
+                name={student.full_name} 
+                points={student.points || 0} 
+                size="md" 
+                isAdmin={student.role === 'admin'} 
+              />
               
               <div className="flex-1 min-w-0 ml-2">
                 <div className="flex items-center gap-2">

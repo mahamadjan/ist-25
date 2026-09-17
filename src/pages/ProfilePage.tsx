@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { Session } from '@supabase/supabase-js';
-import { MapPin, LogOut } from 'lucide-react';
+import { MapPin, LogOut, Trophy } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Database } from '../types/supabase';
 import Avatar from '../components/Avatar';
@@ -206,7 +206,13 @@ export default function ProfilePage() {
         <div className="flex justify-between items-start mb-6">
           <div className="flex items-center gap-4">
             <div className="relative group">
-              <Avatar url={profile?.avatar_url} name={profile?.full_name || 'Студент'} points={profile?.points || 0} size="lg" />
+              <Avatar 
+                url={profile?.avatar_url} 
+                name={profile?.full_name || 'Студент'} 
+                points={profile?.points || 0} 
+                size="lg" 
+                isAdmin={profile?.role === 'admin'} 
+              />
               
               <label className="absolute inset-0 flex items-center justify-center bg-black/50 text-white rounded-full opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity text-xs font-bold text-center p-1 z-20">
                 Изменить
@@ -248,8 +254,33 @@ export default function ProfilePage() {
             <MapPin className="w-4 h-4" /> Как работают отметки
           </h3>
           <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-            Теперь вы можете отмечаться на парах прямо с телефона. Для этого нужно находиться <b>не дальше 250 метров</b> от университета. Кнопка «Я на паре» появляется на карточке текущего занятия.
+            Теперь вы можете отмечаться на парах прямо с телефона. Для этого нужно находиться <b>не дальше 250 метров</b> от университета. За каждую отметку вы получаете очки рейтинга.
           </p>
+        </div>
+
+        <div className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-4 border border-slate-100 dark:border-slate-700 mt-4">
+          <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4 flex items-center gap-2">
+            <Trophy className="w-4 h-4" /> Система рангов
+          </h3>
+          <div className="grid grid-cols-4 gap-2">
+            <div className="text-center flex flex-col items-center">
+              <Avatar name="Л" points={50} size="sm" />
+              <span className="text-[10px] mt-2 font-bold text-emerald-500">50+ очков</span>
+            </div>
+            <div className="text-center flex flex-col items-center">
+              <Avatar name="П" points={100} size="sm" />
+              <span className="text-[10px] mt-2 font-bold text-cyan-500">100+ очков</span>
+            </div>
+            <div className="text-center flex flex-col items-center">
+              <Avatar name="Э" points={250} size="sm" />
+              <span className="text-[10px] mt-2 font-bold text-yellow-500">250+ очков</span>
+            </div>
+            <div className="text-center flex flex-col items-center">
+              <Avatar name="Л" points={500} size="sm" />
+              <span className="text-[10px] mt-2 font-bold text-fuchsia-500">500+ очков</span>
+            </div>
+          </div>
+          <p className="text-xs text-slate-400 mt-4 text-center">Староста автоматически получает максимальный ранг.</p>
         </div>
 
         {profile?.role === 'admin' && (

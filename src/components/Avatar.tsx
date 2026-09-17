@@ -6,11 +6,12 @@ interface AvatarProps {
   name: string;
   points: number;
   size?: 'sm' | 'md' | 'lg' | 'xl';
+  isAdmin?: boolean;
 }
 
-export default function Avatar({ url, name, points, size = 'md' }: AvatarProps) {
+export default function Avatar({ url, name, points, size = 'md', isAdmin = false }: AvatarProps) {
   let tier = 0;
-  if (points >= 500) tier = 4; // Легенда
+  if (isAdmin || points >= 500) tier = 4; // Легенда (всегда у админа)
   else if (points >= 250) tier = 3; // Эксперт
   else if (points >= 100) tier = 2; // Продвинутый
   else if (points >= 50) tier = 1; // Любитель
