@@ -290,27 +290,40 @@ export default function ProfilePage() {
                   key={theme.id}
                   onClick={() => isUnlocked && handleSelectTheme(theme.id)}
                   disabled={!isUnlocked}
-                  className={`w-full text-left flex items-center gap-3 p-3 rounded-xl border transition-all ${
-                    isActive 
-                      ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 ring-1 ring-blue-500' 
-                      : isUnlocked 
-                        ? 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-blue-300' 
-                        : 'bg-slate-50 dark:bg-slate-900/50 border-slate-100 dark:border-slate-800 opacity-60 cursor-not-allowed'
-                  }`}
+                  className={cn(
+                    "w-full text-left flex items-center gap-3 p-3 rounded-xl border transition-all relative overflow-hidden",
+                    theme.cardClass,
+                    !isUnlocked && "opacity-75 grayscale-[50%] hover:grayscale-0 cursor-not-allowed",
+                    isActive && "ring-2 ring-white/80 scale-[1.02] shadow-lg"
+                  )}
                 >
-                  <div className="flex-shrink-0">
-                    <Avatar name={profile?.full_name?.charAt(0) || 'С'} points={profile?.points || 0} size="sm" isAdmin={profile?.role === 'admin'} themeId={theme.id} />
+                  {theme.cardEffect}
+                  
+                  <div className="flex-shrink-0 relative z-10">
+                    <Avatar 
+                      name={profile?.full_name?.charAt(0) || 'С'} 
+                      points={isUnlocked ? theme.minPoints : 0} 
+                      size="sm" 
+                      isAdmin={false} 
+                      themeId={theme.id} 
+                    />
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold text-sm text-slate-800 dark:text-white">{theme.name}</span>
-                      {isActive && <CheckCircle2 className="w-4 h-4 text-blue-500" />}
+                  
+                  <div className="flex-1 relative z-10">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-sm leading-tight drop-shadow-sm">{theme.name}</span>
+                        {isActive && <CheckCircle2 className="w-4 h-4 text-emerald-400 drop-shadow-md" />}
+                      </div>
+                      
+                      {!isUnlocked && (
+                        <div className="bg-black/40 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1">
+                          <span className="text-[10px] font-bold uppercase text-white tracking-wider drop-shadow-md">
+                            {theme.minPoints} очков
+                          </span>
+                        </div>
+                      )}
                     </div>
-                    {!isUnlocked && (
-                      <span className="text-xs text-slate-400 font-medium block">
-                        Требуется {theme.minPoints} очков
-                      </span>
-                    )}
                   </div>
                 </button>
               );
