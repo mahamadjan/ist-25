@@ -77,7 +77,7 @@ export default function LessonCard({ lesson, isToday = false, index = 0 }: Lesso
         }
         setCheckInLoading(false);
       },
-      (error) => {
+      (_error) => {
         setCheckInError('Разрешите доступ к геопозиции');
         setCheckInLoading(false);
       },
