@@ -90,16 +90,22 @@ export interface Database {
           id: string
           full_name: string
           role: string
+          points: number
+          avatar_url: string | null
         }
         Insert: {
           id: string
           full_name: string
           role?: string
+          points?: number
+          avatar_url?: string | null
         }
         Update: {
           id?: string
           full_name?: string
           role?: string
+          points?: number
+          avatar_url?: string | null
         }
       }
     }

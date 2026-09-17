@@ -158,6 +158,45 @@ export default function ProfilePage() {
     );
   }
 
+  const handleUploadAvatar = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      setLoading(true);
+      
+      if (!event.target.files || event.target.files.length === 0) {
+        throw new Error('Вы должны выбрать изображение для загрузки.');
+      }
+
+      const file = event.target.files[0];
+      const fileExt = file.name.split('.').pop();
+      const filePath = `${session?.user.id}-${Math.random()}.${fileExt}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      const { data } = supabase.storage.from('avatars').getPublicUrl(filePath);
+
+      const { error: updateError } = await supabase.from('profiles').update({
+        avatar_url: data.publicUrl
+      }).eq('id', session?.user.id!);
+
+      if (updateError) {
+        throw updateError;
+      }
+
+      await fetchProfile(session?.user.id!);
+      
+    } catch (error: any) {
+      alert(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="animate-in fade-in duration-300 pb-8 px-2 max-w-lg mx-auto">
       <div className="glass-card p-6 md:p-8 rounded-3xl mb-8 relative overflow-hidden">
@@ -165,16 +204,39 @@ export default function ProfilePage() {
         
         <div className="flex justify-between items-start mb-6">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center border border-emerald-200 dark:border-emerald-800">
-              <User className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
+            <div className="relative group">
+              {profile?.avatar_url ? (
+                <img src={profile.avatar_url} alt="Аватар" className="w-16 h-16 rounded-2xl object-cover border-2 border-emerald-100 dark:border-emerald-800" />
+              ) : (
+                <div className="w-16 h-16 rounded-2xl bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center border border-emerald-200 dark:border-emerald-800">
+                  <User className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
+                </div>
+              )}
+              
+              <label className="absolute inset-0 flex items-center justify-center bg-black/50 text-white rounded-2xl opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity text-xs font-bold text-center p-1">
+                Изменить
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleUploadAvatar}
+                  disabled={loading}
+                  className="hidden"
+                />
+              </label>
             </div>
+            
             <div>
               <h2 className="text-xl font-black text-slate-800 dark:text-white leading-tight mb-1">
                 {profile?.full_name || 'Студент'}
               </h2>
-              <span className="text-xs font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-1 rounded-md uppercase tracking-wider">
-                {profile?.role === 'admin' ? 'Староста / Админ' : 'Студент'}
-              </span>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="text-xs font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-1 rounded-md uppercase tracking-wider">
+                  {profile?.role === 'admin' ? 'Староста / Админ' : 'Студент'}
+                </span>
+                <span className="text-xs font-bold text-yellow-600 bg-yellow-50 dark:bg-yellow-900/30 px-2 py-1 rounded-md uppercase tracking-wider flex items-center gap-1">
+                  ⭐ {profile?.points || 0}
+                </span>
+              </div>
             </div>
           </div>
           <button 

@@ -69,6 +69,12 @@ export default function LessonCard({ lesson, isToday = false, index = 0 }: Lesso
           
           if (!error) {
             setIsCheckedIn(true);
+            
+            // Начисляем очки (+10 за пару)
+            const { data: profile } = await supabase.from('profiles').select('points').eq('id', userId!).single();
+            if (profile) {
+              await supabase.from('profiles').update({ points: (profile.points || 0) + 10 }).eq('id', userId!);
+            }
           } else {
             setCheckInError('Ошибка при сохранении: ' + error.message);
           }
