@@ -147,18 +147,34 @@ export default function AdminPage() {
     
     setViewingAttendance(lessonId);
     
-    // Получаем посещаемость с JOIN на профили
+    // Получаем отметки
     const { data } = await supabase
       .from('attendance')
-      .select('date, profiles(full_name)')
+      .select('*')
       .eq('lesson_id', lessonId)
       .order('date', { ascending: false });
       
-    if (data) {
+    if (data && data.length > 0) {
+      // Получаем имена студентов вручную, так как прямого FK нет
+      const studentIds = data.map(d => d.student_id);
+      const { data: profilesData } = await supabase
+        .from('profiles')
+        .select('id, full_name')
+        .in('id', studentIds);
+        
+      const profileMap: Record<string, string> = {};
+      if (profilesData) {
+        profilesData.forEach(p => {
+          profileMap[p.id] = p.full_name;
+        });
+      }
+      
       setAttendanceList(data.map(item => ({
         date: item.date,
-        full_name: (item.profiles as any)?.full_name || 'Неизвестный студент'
+        full_name: profileMap[item.student_id] || 'Неизвестный студент'
       })));
+    } else {
+      setAttendanceList([]);
     }
   };
 
