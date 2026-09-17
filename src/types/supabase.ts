@@ -59,6 +59,49 @@ export interface Database {
           updated_at?: string
         }
       }
+      attendance: {
+        Row: {
+          id: string
+          lesson_id: string
+          student_id: string
+          date: string
+          status: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          lesson_id: string
+          student_id: string
+          date?: string
+          status: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          lesson_id?: string
+          student_id?: string
+          date?: string
+          status?: string
+          created_at?: string
+        }
+      }
+      profiles: {
+        Row: {
+          id: string
+          full_name: string
+          role: string
+        }
+        Insert: {
+          id: string
+          full_name: string
+          role?: string
+        }
+        Update: {
+          id?: string
+          full_name?: string
+          role?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never

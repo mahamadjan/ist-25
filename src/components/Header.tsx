@@ -1,4 +1,4 @@
-import { Leaf, Moon, Sun, Settings } from 'lucide-react';
+import { Leaf, Moon, Sun, UserRound } from 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
 import { Link } from 'react-router-dom';
 
@@ -22,8 +22,8 @@ export default function Header() {
       </div>
       
       <div className="flex items-center gap-2">
-        <Link to="/admin" className="p-2.5 rounded-xl bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-emerald-100 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-emerald-300 transition-all active:scale-95 hidden md:block" title="Настройки">
-          <Settings className="w-5 h-5" />
+        <Link to="/profile" className="p-2.5 rounded-xl bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-emerald-100 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-emerald-300 transition-all active:scale-95 hidden md:block" title="Профиль">
+          <UserRound className="w-5 h-5" />
         </Link>
         <button
           onClick={toggleTheme}

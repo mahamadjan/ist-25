@@ -17,6 +17,8 @@ export default function AdminPage() {
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [viewingAttendance, setViewingAttendance] = useState<string | null>(null);
+  const [attendanceList, setAttendanceList] = useState<{full_name: string, date: string}[]>([]);
   
   const initialForm = {
     day_of_week: 1,
@@ -125,6 +127,29 @@ export default function AdminPage() {
     setEditingId(null);
     setFormData(initialForm);
     fetchLessons();
+  };
+
+  const handleViewAttendance = async (lessonId: string) => {
+    if (viewingAttendance === lessonId) {
+      setViewingAttendance(null);
+      return;
+    }
+    
+    setViewingAttendance(lessonId);
+    
+    // Получаем посещаемость с JOIN на профили
+    const { data } = await supabase
+      .from('attendance')
+      .select('date, profiles(full_name)')
+      .eq('lesson_id', lessonId)
+      .order('date', { ascending: false });
+      
+    if (data) {
+      setAttendanceList(data.map(item => ({
+        date: item.date,
+        full_name: (item.profiles as any)?.full_name || 'Неизвестный студент'
+      })));
+    }
   };
 
   if (!session) {
@@ -302,27 +327,51 @@ export default function AdminPage() {
       <div className="space-y-4">
         <h3 className="text-xl font-bold px-2">Существующие занятия</h3>
         {lessons.map(lesson => (
-          <div key={lesson.id} className="glass-card p-4 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="font-bold text-blue-600 dark:text-blue-400">
-                  {['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'][lesson.day_of_week - 1]}
-                </span>
-                <span className="text-sm text-slate-500">
-                  {lesson.start_time.slice(0, 5)} - {lesson.end_time.slice(0, 5)} (Пара {lesson.lesson_number})
-                </span>
+          <div key={lesson.id} className="flex flex-col gap-2">
+            <div className="glass-card p-4 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="font-bold text-blue-600 dark:text-blue-400">
+                    {['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'][lesson.day_of_week - 1]}
+                  </span>
+                  <span className="text-sm text-slate-500">
+                    {lesson.start_time.slice(0, 5)} - {lesson.end_time.slice(0, 5)} (Пара {lesson.lesson_number})
+                  </span>
+                </div>
+                <div className="font-medium">{lesson.subject}</div>
+                <div className="text-sm text-slate-500">{lesson.teacher} • {lesson.room}</div>
               </div>
-              <div className="font-medium">{lesson.subject}</div>
-              <div className="text-sm text-slate-500">{lesson.teacher} • {lesson.room}</div>
+              <div className="flex flex-col gap-2 w-full md:w-auto">
+                <div className="flex gap-2">
+                  <button onClick={() => handleViewAttendance(lesson.id)} className="flex-1 md:flex-none p-2 px-4 text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/50 text-sm font-bold">
+                    Кто был?
+                  </button>
+                  <button onClick={() => handleEdit(lesson)} className="p-2 text-blue-600 bg-blue-50 dark:bg-blue-900/30 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/50 flex justify-center items-center">
+                    <Pencil className="w-5 h-5" />
+                  </button>
+                  <button onClick={() => handleDelete(lesson)} className="p-2 text-red-600 bg-red-50 dark:bg-red-900/30 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/50 flex justify-center items-center">
+                    <Trash2 className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
             </div>
-            <div className="flex gap-2 w-full md:w-auto">
-              <button onClick={() => handleEdit(lesson)} className="flex-1 md:flex-none p-2 text-blue-600 bg-blue-50 dark:bg-blue-900/30 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/50 flex justify-center items-center">
-                <Pencil className="w-5 h-5" />
-              </button>
-              <button onClick={() => handleDelete(lesson)} className="flex-1 md:flex-none p-2 text-red-600 bg-red-50 dark:bg-red-900/30 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/50 flex justify-center items-center">
-                <Trash2 className="w-5 h-5" />
-              </button>
-            </div>
+            {viewingAttendance === lesson.id && (
+              <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-100 dark:border-slate-700 animate-in slide-in-from-top-2">
+                <h4 className="font-bold mb-3 text-sm">Журнал посещений:</h4>
+                {attendanceList.length === 0 ? (
+                  <p className="text-sm text-slate-500">Пока никто не отмечался на этой паре.</p>
+                ) : (
+                  <ul className="space-y-2">
+                    {attendanceList.map((att, i) => (
+                      <li key={i} className="flex justify-between items-center text-sm bg-white dark:bg-slate-800 p-2 px-3 rounded-lg border border-slate-100 dark:border-slate-700">
+                        <span className="font-medium">{att.full_name}</span>
+                        <span className="text-slate-500">{att.date}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
           </div>
         ))}
       </div>

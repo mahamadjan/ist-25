@@ -1,7 +1,9 @@
-import { MapPin, User } from 'lucide-react';
+import { MapPin, User, CheckCircle2, MapPinOff } from 'lucide-react';
 import { getLessonStatus, cn } from '../lib/utils';
 import { Database } from '../types/supabase';
 import { useEffect, useState } from 'react';
+import { supabase } from '../lib/supabase';
+import { isAtUniversity } from '../lib/geo';
 
 type Lesson = Database['public']['Tables']['schedule']['Row'];
 
@@ -13,6 +15,75 @@ interface LessonCardProps {
 
 export default function LessonCard({ lesson, isToday = false, index = 0 }: LessonCardProps) {
   const [status, setStatus] = useState<'ongoing' | 'completed' | 'upcoming' | string>('upcoming');
+  const [userId, setUserId] = useState<string | null>(null);
+  const [isCheckedIn, setIsCheckedIn] = useState(false);
+  const [checkInLoading, setCheckInLoading] = useState(false);
+  const [checkInError, setCheckInError] = useState('');
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setUserId(data.session?.user.id || null));
+    
+    if (isToday) {
+      checkIfAttended();
+    }
+  }, [lesson.id, isToday]);
+
+  const checkIfAttended = async () => {
+    const { data: session } = await supabase.auth.getSession();
+    if (!session.session) return;
+    
+    const today = new Date().toISOString().split('T')[0];
+    const { data } = await supabase
+      .from('attendance')
+      .select('id')
+      .eq('lesson_id', lesson.id)
+      .eq('student_id', session.session.user.id)
+      .eq('date', today)
+      .single();
+      
+    if (data) setIsCheckedIn(true);
+  };
+
+  const handleCheckIn = () => {
+    setCheckInLoading(true);
+    setCheckInError('');
+
+    if (!navigator.geolocation) {
+      setCheckInError('Ваш телефон не поддерживает GPS');
+      setCheckInLoading(false);
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        if (isAtUniversity(latitude, longitude)) {
+          // Успех, записываем в БД
+          const today = new Date().toISOString().split('T')[0];
+          const { error } = await supabase.from('attendance').insert({
+            lesson_id: lesson.id,
+            student_id: userId!,
+            date: today,
+            status: 'present'
+          });
+          
+          if (!error) {
+            setIsCheckedIn(true);
+          } else {
+            setCheckInError('Ошибка при сохранении: ' + error.message);
+          }
+        } else {
+          setCheckInError('Вы слишком далеко от университета!');
+        }
+        setCheckInLoading(false);
+      },
+      (error) => {
+        setCheckInError('Разрешите доступ к геопозиции');
+        setCheckInLoading(false);
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+  };
 
   useEffect(() => {
     if (!isToday) return;
@@ -102,6 +173,33 @@ export default function LessonCard({ lesson, isToday = false, index = 0 }: Lesso
           </span>
         )}
       </div>
+
+      {isToday && status === 'ongoing' && userId && (
+        <div className="mt-4 animate-in fade-in zoom-in duration-300">
+          {isCheckedIn ? (
+            <div className="w-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 font-bold p-3 rounded-xl flex justify-center items-center gap-2 border border-emerald-100 dark:border-emerald-800">
+              <CheckCircle2 className="w-5 h-5" />
+              Вы отметились на этой паре
+            </div>
+          ) : (
+            <div className="space-y-2">
+              <button 
+                onClick={handleCheckIn}
+                disabled={checkInLoading}
+                className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-bold p-3 rounded-xl transition-all shadow-lg shadow-blue-500/20 disabled:opacity-70 active:scale-95 flex justify-center items-center gap-2"
+              >
+                <MapPin className="w-5 h-5" />
+                {checkInLoading ? 'Проверка локации...' : 'Отметиться на паре'}
+              </button>
+              {checkInError && (
+                <div className="text-xs font-bold text-red-500 text-center flex items-center justify-center gap-1 bg-red-50 dark:bg-red-900/20 p-2 rounded-lg border border-red-100 dark:border-red-900/30">
+                  <MapPinOff className="w-4 h-4" /> {checkInError}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

@@ -3,6 +3,7 @@ import Layout from './components/Layout';
 import TodayPage from './pages/TodayPage';
 import WeekPage from './pages/WeekPage';
 import AdminPage from './pages/AdminPage';
+import ProfilePage from './pages/ProfilePage';
 import { ThemeProvider } from './hooks/useTheme';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<TodayPage />} />
             <Route path="week" element={<WeekPage />} />
+            <Route path="profile" element={<ProfilePage />} />
             <Route path="admin" element={<AdminPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>

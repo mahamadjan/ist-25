@@ -1,4 +1,4 @@
-import { CalendarDays, Home, Settings } from 'lucide-react';
+import { CalendarDays, Home, UserRound } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { cn } from '../lib/utils';
 
@@ -6,7 +6,7 @@ export default function BottomNav() {
   const navItems = [
     { to: '/', icon: Home, label: 'Сегодня' },
     { to: '/week', icon: CalendarDays, label: 'Неделя' },
-    { to: '/admin', icon: Settings, label: 'Админ' },
+    { to: '/profile', icon: UserRound, label: 'Профиль' },
   ];
 
   return (
