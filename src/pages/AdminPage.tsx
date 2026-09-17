@@ -78,8 +78,9 @@ export default function AdminPage() {
       await supabase.from('schedule').delete().eq('id', lesson.id);
       
       const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+      const descText = lesson.description ? `\nℹ️ Дополнительно: <i>${lesson.description}</i>` : '';
       await sendTelegramNotification(
-        `🚨 <b>Отмена пары</b>\n\nУдалено занятие: <b>${lesson.subject}</b>\n📅 ${days[lesson.day_of_week - 1]}, ${lesson.start_time.slice(0, 5)}`
+        `🚨 <b>Отмена пары</b>\n\nУдалено занятие: <b>${lesson.subject}</b>\n📅 ${days[lesson.day_of_week - 1]}, ${lesson.start_time.slice(0, 5)}${descText}`
       );
       
       fetchLessons();
@@ -107,16 +108,17 @@ export default function AdminPage() {
     setLoading(true);
     
     const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+    const descText = formData.description ? `\nℹ️ Дополнительно: <i>${formData.description}</i>` : '';
     
     if (editingId) {
       await supabase.from('schedule').update(formData as any).eq('id', editingId);
       await sendTelegramNotification(
-        `🔄 <b>Изменение в расписании</b>\n\nИзменено занятие: <b>${formData.subject}</b>\n📅 ${days[formData.day_of_week - 1]}, ${formData.start_time}\n📍 Кабинет: ${formData.room}`
+        `🔄 <b>Изменение в расписании</b>\n\nИзменено занятие: <b>${formData.subject}</b>\n📅 ${days[formData.day_of_week - 1]}, ${formData.start_time}\n📍 Кабинет: ${formData.room}${descText}`
       );
     } else {
       await supabase.from('schedule').insert([formData as any]);
       await sendTelegramNotification(
-        `✅ <b>Новая пара</b>\n\nДобавлено занятие: <b>${formData.subject}</b>\n📅 ${days[formData.day_of_week - 1]}, ${formData.start_time}\n👨‍🏫 Преподаватель: ${formData.teacher}\n📍 Кабинет: ${formData.room}`
+        `✅ <b>Новая пара</b>\n\nДобавлено занятие: <b>${formData.subject}</b>\n📅 ${days[formData.day_of_week - 1]}, ${formData.start_time}\n👨‍🏫 Преподаватель: ${formData.teacher}\n📍 Кабинет: ${formData.room}${descText}`
       );
     }
     
