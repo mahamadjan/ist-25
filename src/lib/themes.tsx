@@ -28,7 +28,16 @@ export const PROFILE_THEMES: ThemeConfig[] = [
     cardClass: 'bg-gradient-to-r from-emerald-950 via-green-900 to-emerald-950 text-white theme-bg-slow border-emerald-500/30 ring-1 ring-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)] relative overflow-hidden',
     avatarRingClass: 'discord-ring-novice',
     avatarWrapperClass: 'bg-slate-900 p-[2px]',
-    badge: <Sprout className="absolute -bottom-1 -right-1 w-5 h-5 text-emerald-500 fill-emerald-500 drop-shadow-md z-20" />
+    badge: <Sprout className="absolute -bottom-1 -right-1 w-5 h-5 text-emerald-500 fill-emerald-500 drop-shadow-md z-20" />,
+    cardEffect: (
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="forest-firefly" style={{ left: '15%', top: '60%', animationDelay: '0s', animationDuration: '3s' }} />
+        <div className="forest-firefly" style={{ left: '35%', top: '80%', animationDelay: '1s', animationDuration: '4s', transform: 'scale(1.5)' }} />
+        <div className="forest-firefly" style={{ left: '55%', top: '50%', animationDelay: '0.5s', animationDuration: '2.5s' }} />
+        <div className="forest-firefly" style={{ left: '75%', top: '70%', animationDelay: '2s', animationDuration: '3.5s', transform: 'scale(1.2)' }} />
+        <div className="forest-firefly" style={{ left: '90%', top: '90%', animationDelay: '1.5s', animationDuration: '5s' }} />
+      </div>
+    )
   },
   {
     id: 'ocean',
@@ -38,7 +47,13 @@ export const PROFILE_THEMES: ThemeConfig[] = [
     avatarRingClass: 'discord-ring-regular',
     avatarWrapperClass: 'bg-slate-900 p-[2px]',
     badge: <Droplets className="absolute -bottom-1 -right-1 w-5 h-5 text-cyan-400 fill-cyan-400 drop-shadow-md z-20" />,
-    cardEffect: <div className="ocean-wave z-0 pointer-events-none" />
+    cardEffect: (
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="ocean-wave opacity-50" style={{ animationDuration: '6s', bottom: '-10px' }} />
+        <div className="ocean-wave opacity-70" style={{ animationDuration: '4s', bottom: '-5px', transform: 'scaleX(-1)' }} />
+        <div className="ocean-wave" style={{ animationDuration: '3s' }} />
+      </div>
+    )
   },
   {
     id: 'sakura',
@@ -50,10 +65,13 @@ export const PROFILE_THEMES: ThemeConfig[] = [
     badge: <Flower2 className="absolute -bottom-1 -right-1 w-5 h-5 text-pink-400 fill-pink-400 drop-shadow-md z-20 animate-spin-slow" />,
     cardEffect: (
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="sakura-petal" style={{ left: '10%', animationDelay: '0s' }} />
-        <div className="sakura-petal" style={{ left: '30%', animationDelay: '2s' }} />
-        <div className="sakura-petal" style={{ left: '60%', animationDelay: '1s' }} />
-        <div className="sakura-petal" style={{ left: '85%', animationDelay: '3s' }} />
+        <div className="sakura-petal" style={{ left: '5%', animationDelay: '0s', animationDuration: '3s' }} />
+        <div className="sakura-petal" style={{ left: '20%', animationDelay: '1s', animationDuration: '4s', transform: 'scale(1.2)' }} />
+        <div className="sakura-petal" style={{ left: '35%', animationDelay: '2.5s', animationDuration: '3.5s' }} />
+        <div className="sakura-petal" style={{ left: '50%', animationDelay: '0.5s', animationDuration: '4.5s', transform: 'scale(0.8)' }} />
+        <div className="sakura-petal" style={{ left: '65%', animationDelay: '2s', animationDuration: '3s' }} />
+        <div className="sakura-petal" style={{ left: '80%', animationDelay: '1.5s', animationDuration: '4s', transform: 'scale(1.5)' }} />
+        <div className="sakura-petal" style={{ left: '95%', animationDelay: '0.2s', animationDuration: '3.2s' }} />
       </div>
     )
   },
@@ -64,7 +82,16 @@ export const PROFILE_THEMES: ThemeConfig[] = [
     cardClass: 'bg-gradient-to-r from-slate-900 via-fuchsia-950 to-slate-900 text-white theme-bg-animated border-fuchsia-500/50 ring-1 ring-cyan-500/50 shadow-[0_0_15px_rgba(217,70,239,0.3)] relative overflow-hidden',
     avatarRingClass: 'discord-ring-cyberpunk',
     avatarWrapperClass: 'bg-slate-900 p-[2px]',
-    badge: <Zap className="absolute -bottom-1 -right-1 w-5 h-5 text-yellow-400 fill-yellow-400 drop-shadow-md z-20" />
+    badge: <Zap className="absolute -bottom-1 -right-1 w-5 h-5 text-yellow-400 fill-yellow-400 drop-shadow-md z-20" />,
+    cardEffect: (
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="cyber-scanline" style={{ animationDelay: '0s', animationDuration: '3s' }} />
+        <div className="cyber-scanline" style={{ animationDelay: '1.5s', animationDuration: '4s', opacity: 0.5 }} />
+        <div className="cyber-glitch-box w-10 h-2" style={{ left: '10%', top: '20%', animationDelay: '0.1s' }} />
+        <div className="cyber-glitch-box w-20 h-1 bg-cyan-400" style={{ left: '60%', top: '60%', animationDelay: '0.5s' }} />
+        <div className="cyber-glitch-box w-5 h-5 bg-yellow-400" style={{ left: '85%', top: '15%', animationDelay: '1.2s' }} />
+      </div>
+    )
   },
   {
     id: 'gold',
@@ -73,7 +100,16 @@ export const PROFILE_THEMES: ThemeConfig[] = [
     cardClass: 'bg-gradient-to-r from-amber-950 via-yellow-900 to-amber-950 text-white theme-bg-slow border-yellow-500/40 ring-1 ring-yellow-400/30 shadow-[0_0_20px_rgba(250,204,21,0.2)] relative overflow-hidden',
     avatarRingClass: 'discord-ring-expert',
     avatarWrapperClass: 'bg-slate-900 p-[2px]',
-    badge: <Sparkles className="absolute -top-2 -right-2 w-6 h-6 text-yellow-400 fill-yellow-400 drop-shadow-lg z-20 animate-pulse" />
+    badge: <Sparkles className="absolute -top-2 -right-2 w-6 h-6 text-yellow-400 fill-yellow-400 drop-shadow-lg z-20 animate-pulse" />,
+    cardEffect: (
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="gold-sparkle" style={{ left: '10%', bottom: '0%', animationDelay: '0s', animationDuration: '4s' }} />
+        <div className="gold-sparkle" style={{ left: '30%', bottom: '0%', animationDelay: '1.5s', animationDuration: '3s', transform: 'scale(1.2)' }} />
+        <div className="gold-sparkle" style={{ left: '50%', bottom: '0%', animationDelay: '0.5s', animationDuration: '5s', transform: 'scale(0.8)' }} />
+        <div className="gold-sparkle" style={{ left: '70%', bottom: '0%', animationDelay: '2s', animationDuration: '3.5s' }} />
+        <div className="gold-sparkle" style={{ left: '90%', bottom: '0%', animationDelay: '1s', animationDuration: '4.5s', transform: 'scale(1.5)' }} />
+      </div>
+    )
   },
   {
     id: 'magma',
@@ -85,9 +121,13 @@ export const PROFILE_THEMES: ThemeConfig[] = [
     badge: <Flame className="absolute -bottom-2 -right-2 w-7 h-7 text-orange-500 fill-orange-500 drop-shadow-xl z-20 animate-bounce" />,
     cardEffect: (
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="magma-spark" style={{ left: '20%', bottom: '10%', animationDelay: '0s' }} />
-        <div className="magma-spark" style={{ left: '50%', bottom: '20%', animationDelay: '1.5s' }} />
-        <div className="magma-spark" style={{ left: '80%', bottom: '5%', animationDelay: '0.7s' }} />
+        <div className="magma-spark" style={{ left: '10%', bottom: '0%', animationDelay: '0s', animationDuration: '1.5s', transform: 'scale(1.2)' }} />
+        <div className="magma-spark" style={{ left: '25%', bottom: '0%', animationDelay: '0.8s', animationDuration: '2s' }} />
+        <div className="magma-spark" style={{ left: '40%', bottom: '0%', animationDelay: '0.3s', animationDuration: '1.2s', transform: 'scale(1.5)' }} />
+        <div className="magma-spark" style={{ left: '55%', bottom: '0%', animationDelay: '1.1s', animationDuration: '1.8s' }} />
+        <div className="magma-spark" style={{ left: '70%', bottom: '0%', animationDelay: '0.5s', animationDuration: '1.4s', transform: 'scale(2)' }} />
+        <div className="magma-spark" style={{ left: '85%', bottom: '0%', animationDelay: '1.3s', animationDuration: '2.2s' }} />
+        <div className="magma-spark" style={{ left: '95%', bottom: '0%', animationDelay: '0.2s', animationDuration: '1.6s' }} />
       </div>
     )
   },
@@ -101,8 +141,11 @@ export const PROFILE_THEMES: ThemeConfig[] = [
     badge: <Hexagon className="absolute -bottom-1 -right-1 w-5 h-5 text-violet-400 fill-violet-400 drop-shadow-md z-20 animate-spin-slow" />,
     cardEffect: (
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="amethyst-crystal" style={{ left: '15%', top: '20%', animationDelay: '0s' }} />
-        <div className="amethyst-crystal" style={{ left: '85%', top: '40%', animationDelay: '3s' }} />
+        <div className="amethyst-crystal" style={{ left: '10%', top: '10%', animationDelay: '0s', animationDuration: '4s' }} />
+        <div className="amethyst-crystal" style={{ left: '30%', top: '60%', animationDelay: '1s', animationDuration: '5s', transform: 'scale(1.5)' }} />
+        <div className="amethyst-crystal" style={{ left: '50%', top: '20%', animationDelay: '2s', animationDuration: '4.5s', transform: 'scale(0.8)' }} />
+        <div className="amethyst-crystal" style={{ left: '70%', top: '70%', animationDelay: '0.5s', animationDuration: '6s', transform: 'scale(1.2)' }} />
+        <div className="amethyst-crystal" style={{ left: '90%', top: '30%', animationDelay: '1.5s', animationDuration: '3.5s' }} />
       </div>
     )
   },
@@ -116,10 +159,14 @@ export const PROFILE_THEMES: ThemeConfig[] = [
     badge: <Star className="absolute -top-2 -right-1 w-5 h-5 text-blue-300 fill-blue-300 drop-shadow-xl z-20 animate-pulse" />,
     cardEffect: (
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="cosmic-star w-1 h-1" style={{ left: '10%', top: '20%', animationDelay: '0.5s' }} />
-        <div className="cosmic-star w-2 h-2" style={{ left: '30%', top: '70%', animationDelay: '1.2s' }} />
-        <div className="cosmic-star w-1.5 h-1.5" style={{ left: '60%', top: '15%', animationDelay: '2.1s' }} />
-        <div className="cosmic-star w-1 h-1" style={{ left: '85%', top: '60%', animationDelay: '0.8s' }} />
+        <div className="cosmic-star w-1 h-1" style={{ left: '5%', top: '10%', animationDelay: '0s' }} />
+        <div className="cosmic-star w-2 h-2" style={{ left: '15%', top: '40%', animationDelay: '0.5s' }} />
+        <div className="cosmic-star w-1.5 h-1.5" style={{ left: '25%', top: '80%', animationDelay: '1.2s' }} />
+        <div className="cosmic-star w-3 h-3" style={{ left: '40%', top: '20%', animationDelay: '0.3s' }} />
+        <div className="cosmic-star w-1 h-1" style={{ left: '55%', top: '60%', animationDelay: '1.8s' }} />
+        <div className="cosmic-star w-2 h-2" style={{ left: '70%', top: '15%', animationDelay: '0.9s' }} />
+        <div className="cosmic-star w-1.5 h-1.5" style={{ left: '85%', top: '75%', animationDelay: '2.1s' }} />
+        <div className="cosmic-star w-1 h-1" style={{ left: '95%', top: '30%', animationDelay: '0.7s' }} />
       </div>
     )
   },
@@ -133,10 +180,14 @@ export const PROFILE_THEMES: ThemeConfig[] = [
     badge: <Flame className="absolute -bottom-2 -right-2 w-7 h-7 text-fuchsia-400 fill-fuchsia-400 drop-shadow-xl z-20 animate-bounce" />,
     effect: <div className="absolute -inset-4 bg-gradient-to-r from-fuchsia-500 via-cyan-500 to-yellow-500 rounded-full blur-xl opacity-30 animate-pulse z-0 pointer-events-none" />,
     cardEffect: (
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden mix-blend-screen opacity-50">
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden mix-blend-screen opacity-70">
         <div className="cosmic-star w-2 h-2" style={{ left: '10%', top: '20%', animationDelay: '0.1s', background: '#f0f' }} />
-        <div className="cosmic-star w-3 h-3" style={{ left: '80%', top: '70%', animationDelay: '0.5s', background: '#0ff' }} />
+        <div className="cosmic-star w-4 h-4" style={{ left: '30%', top: '50%', animationDelay: '0.8s', background: '#0ff' }} />
+        <div className="cosmic-star w-3 h-3" style={{ left: '80%', top: '70%', animationDelay: '0.5s', background: '#ff0' }} />
+        <div className="cosmic-star w-2 h-2" style={{ left: '60%', top: '10%', animationDelay: '1.2s', background: '#f0f' }} />
+        <div className="magma-spark" style={{ left: '25%', bottom: '0%', animationDelay: '0.3s', background: '#0ff' }} />
         <div className="magma-spark" style={{ left: '50%', bottom: '0%', animationDelay: '1s', background: '#ff0' }} />
+        <div className="magma-spark" style={{ left: '75%', bottom: '0%', animationDelay: '0.6s', background: '#f0f' }} />
       </div>
     )
   }
