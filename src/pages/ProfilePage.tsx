@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { Session } from '@supabase/supabase-js';
 import { User, MapPin, LogOut } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Database } from '../types/supabase';
 
 type Profile = Database['public']['Tables']['profiles']['Row'];
@@ -193,6 +194,17 @@ export default function ProfilePage() {
             Теперь вы можете отмечаться на парах прямо с телефона. Для этого нужно находиться <b>не дальше 250 метров</b> от университета. Кнопка «Я на паре» появляется на карточке текущего занятия.
           </p>
         </div>
+
+        {profile?.role === 'admin' && (
+          <div className="mt-4">
+            <Link 
+              to="/admin" 
+              className="w-full bg-slate-800 hover:bg-slate-900 dark:bg-white dark:hover:bg-slate-100 dark:text-slate-900 text-white font-bold p-4 rounded-2xl transition-all flex justify-center items-center gap-2 shadow-lg"
+            >
+              Перейти в Панель управления
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
