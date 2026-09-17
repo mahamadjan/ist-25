@@ -9,7 +9,6 @@ type Profile = Database['public']['Tables']['profiles']['Row'];
 export default function ProfilePage() {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
@@ -67,31 +66,9 @@ export default function ProfilePage() {
 
     const loginEmail = email.includes('@') ? email : `${email.toLowerCase().trim()}@ist.kg`;
 
-    if (isLogin) {
-      const { error } = await supabase.auth.signInWithPassword({ email: loginEmail, password });
-      if (error) setError(error.message);
-    } else {
-      // Регистрация
-      const { data, error: signUpError } = await supabase.auth.signUp({ 
-        email: loginEmail, 
-        password,
-        options: {
-          data: { full_name: fullName } // Supabase автоматически не пишет в profiles, нужно делать через триггер или руками
-        }
-      });
-      
-      if (signUpError) {
-        setError(signUpError.message);
-      } else if (data.user) {
-        // Создаем профиль студента
-        const { error: profileError } = await supabase.from('profiles').insert({
-          id: data.user.id,
-          full_name: fullName,
-          role: 'student'
-        });
-        if (profileError) setError(profileError.message);
-      }
-    }
+    const { error } = await supabase.auth.signInWithPassword({ email: loginEmail, password });
+    if (error) setError(error.message);
+    
     setLoading(false);
   };
 
@@ -102,44 +79,30 @@ export default function ProfilePage() {
       <div className="flex flex-col items-center justify-center min-h-[60vh] animate-in fade-in zoom-in duration-300 px-4">
         <div className="glass-card p-6 md:p-8 rounded-3xl w-full max-w-sm">
           <h2 className="text-2xl font-black mb-6 text-center text-slate-800 dark:text-white">
-            {isLogin ? 'Вход для студентов' : 'Регистрация'}
+            Вход для студентов
           </h2>
           {error && <div className="bg-red-50 text-red-600 p-3 rounded-xl mb-4 text-sm font-medium border border-red-100">{error}</div>}
           
           <form onSubmit={handleSubmit} className="space-y-4">
-            {!isLogin && (
-              <div>
-                <label className="block text-sm font-bold mb-1 text-slate-600 dark:text-slate-300">ФИО</label>
-                <input 
-                  type="text" 
-                  value={fullName}
-                  onChange={e => setFullName(e.target.value)}
-                  className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
-                  placeholder="Иванов Иван Иванович"
-                  required={!isLogin}
-                />
-              </div>
-            )}
             <div>
-              <label className="block text-sm font-bold mb-1 text-slate-600 dark:text-slate-300">Логин (без @)</label>
+              <label className="block text-sm font-bold mb-1 text-slate-600 dark:text-slate-300">Логин (выдает староста)</label>
               <input 
                 type="text" 
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
-                placeholder="Например: aibek123"
+                placeholder="Например: aibek"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-bold mb-1 text-slate-600 dark:text-slate-300">Пароль (минимум 6 символов)</label>
+              <label className="block text-sm font-bold mb-1 text-slate-600 dark:text-slate-300">Пароль</label>
               <input 
                 type="password" 
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
                 required
-                minLength={6}
               />
             </div>
             <button 
@@ -147,19 +110,9 @@ export default function ProfilePage() {
               disabled={loading}
               className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold p-3.5 rounded-xl transition-all shadow-lg shadow-emerald-500/20 disabled:opacity-70 active:scale-95"
             >
-              {loading ? 'Загрузка...' : (isLogin ? 'Войти' : 'Зарегистрироваться')}
+              {loading ? 'Загрузка...' : 'Войти'}
             </button>
           </form>
-
-          <div className="mt-6 text-center">
-            <button 
-              type="button" 
-              onClick={() => { setIsLogin(!isLogin); setError(''); }}
-              className="text-sm font-bold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400"
-            >
-              {isLogin ? 'У меня еще нет аккаунта' : 'Уже есть аккаунт? Войти'}
-            </button>
-          </div>
         </div>
       </div>
     );
