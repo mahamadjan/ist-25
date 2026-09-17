@@ -83,15 +83,17 @@
 }
 
 .glass-header {
-  @apply bg-[#f2f2f7]/80 dark:bg-[#000000]/80 backdrop-blur-xl border-b border-black/5 dark:border-white/10;
-  /* iOS translucent header */
-  backdrop-filter: blur(20px) saturate(150%);
+  @apply bg-[rgba(255,255,255,0.7)] dark:bg-[rgba(28,28,30,0.7)] border-b border-black/10 dark:border-white/10;
+  /* iOS Translucent Glass */
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
 }
 
 .glass-nav {
-  @apply bg-[#f2f2f7]/80 dark:bg-[#000000]/80 backdrop-blur-xl border-t border-black/5 dark:border-white/10;
-  /* iOS Tab Bar */
-  backdrop-filter: blur(20px) saturate(150%);
+  @apply bg-[rgba(255,255,255,0.7)] dark:bg-[rgba(28,28,30,0.7)] border-t border-black/10 dark:border-white/10;
+  /* iOS Exact Tab Bar Glass */
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
 }
 
 /* Dynamic floating animation for wow effect */

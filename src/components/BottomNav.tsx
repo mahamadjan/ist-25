@@ -28,8 +28,19 @@ export default function BottomNav() {
             >
               {({ isActive }) => (
                 <>
-                  <Icon className={cn("w-6 h-6 mb-1 transition-transform duration-300", isActive && "scale-105")} />
-                  <span className={cn("text-[10px] font-bold transition-all duration-300", isActive ? "opacity-100" : "opacity-70")}>
+                  <Icon 
+                    className={cn(
+                      "w-6 h-6 mb-1", 
+                      isActive ? "text-[#007AFF] dark:text-[#0a84ff]" : "text-[#999999]"
+                    )} 
+                    strokeWidth={isActive ? 2.5 : 2}
+                  />
+                  <span 
+                    className={cn(
+                      "text-[10px] font-medium tracking-tight", 
+                      isActive ? "text-[#007AFF] dark:text-[#0a84ff]" : "text-[#999999]"
+                    )}
+                  >
                     {label}
                   </span>
                 </>
