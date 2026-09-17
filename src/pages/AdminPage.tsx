@@ -100,9 +100,9 @@ export default function AdminPage() {
     setLoading(true);
     
     if (editingId) {
-      await supabase.from('schedule').update(formData).eq('id', editingId);
+      await supabase.from('schedule').update(formData as any).eq('id', editingId);
     } else {
-      await supabase.from('schedule').insert([formData]);
+      await supabase.from('schedule').insert([formData as any]);
     }
     
     setEditingId(null);

@@ -32,7 +32,7 @@ export default function WeekPage() {
 
         if (error) throw error;
 
-        const grouped = (data || []).reduce((acc, lesson) => {
+        const grouped = (data || []).reduce((acc: Record<number, Lesson[]>, lesson: any) => {
           if (!acc[lesson.day_of_week]) acc[lesson.day_of_week] = [];
           acc[lesson.day_of_week].push(lesson);
           return acc;
