@@ -159,4 +159,20 @@
     -webkit-mask: radial-gradient(transparent 58%, black 62%);
     mask: radial-gradient(transparent 58%, black 62%);
   }
+
+  @keyframes gradientPan {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .theme-bg-animated {
+    background-size: 200% 200%;
+    animation: gradientPan 5s ease infinite;
+  }
+  
+  .theme-bg-slow {
+    background-size: 200% 200%;
+    animation: gradientPan 10s ease infinite;
+  }
 }
