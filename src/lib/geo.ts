@@ -1,6 +1,6 @@
-// Координаты университета (Бишкек)
-export const UNI_LAT = 42.858988;
-export const UNI_LON = 74.667919;
+// Координаты для тестирования (временно)
+export const UNI_LAT = 42.875347;
+export const UNI_LON = 74.636079;
 
 // Максимально допустимое расстояние в метрах
 export const MAX_DISTANCE_METERS = 250;
