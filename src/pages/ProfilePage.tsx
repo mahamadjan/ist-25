@@ -170,12 +170,21 @@ export default function ProfilePage() {
       }
 
       const file = event.target.files[0];
-      const fileExt = file.name.split('.').pop();
-      const filePath = `${session?.user.id}-${Math.random()}.${fileExt}`;
+      if (file.size === 0) {
+        throw new Error('Выбранный файл пустой или поврежден.');
+      }
+
+      // Safe file extension handling
+      const fileExt = file.name.split('.').pop() || 'jpeg';
+      const filePath = `${session?.user.id}-${Date.now()}.${fileExt}`;
 
       const { error: uploadError } = await supabase.storage
         .from('avatars')
-        .upload(filePath, file);
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: true,
+          contentType: file.type || 'image/jpeg'
+        });
 
       if (uploadError) {
         throw uploadError;
