@@ -67,20 +67,24 @@ export default function LeaderboardPage() {
                 isMe && "ring-2 ring-white/50 shadow-lg transform scale-[1.02]"
               )}
             >
-              <div className="flex items-center justify-center w-8">
+              {theme.cardEffect}
+              
+              <div className="flex items-center justify-center w-8 relative z-10">
                 {getRankBadge(index)}
               </div>
               
-              <Avatar 
-                url={student.avatar_url} 
-                name={student.full_name} 
-                points={student.points || 0} 
-                size="md" 
-                isAdmin={student.role === 'admin'} 
-                themeId={student.theme_id}
-              />
+              <div className="relative z-10">
+                <Avatar 
+                  url={student.avatar_url} 
+                  name={student.full_name} 
+                  points={student.points || 0} 
+                  size="md" 
+                  isAdmin={student.role === 'admin'} 
+                  themeId={student.theme_id}
+                />
+              </div>
               
-              <div className="flex-1 min-w-0 ml-2">
+              <div className="flex-1 min-w-0 ml-2 relative z-10">
                 <div className="flex items-center gap-2 flex-wrap">
                   <h3 className="font-bold leading-tight">
                     {student.full_name}
@@ -96,7 +100,7 @@ export default function LeaderboardPage() {
                 </div>
               </div>
               
-              <div className="text-right">
+              <div className="text-right relative z-10">
                 <div className="text-xl font-black drop-shadow-sm">{student.points || 0}</div>
                 <div className="text-[10px] uppercase font-bold opacity-70 tracking-wider">Очков</div>
               </div>

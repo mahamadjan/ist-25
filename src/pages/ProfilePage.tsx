@@ -214,10 +214,11 @@ export default function ProfilePage() {
   return (
     <div className="animate-in fade-in duration-300 pb-8 px-2 max-w-lg mx-auto">
       <div className={`p-6 md:p-8 rounded-3xl mb-8 relative transition-all duration-500 border ${currentTheme.cardClass}`}>
+        {currentTheme.cardEffect}
         
         <div className="flex justify-between items-start mb-6">
           <div className="flex items-center gap-4">
-            <div className="relative group">
+            <div className="relative group z-10">
               <Avatar 
                 url={profile?.avatar_url} 
                 name={profile?.full_name || 'Студент'} 
@@ -255,14 +256,14 @@ export default function ProfilePage() {
           </div>
           <button 
             onClick={handleLogout} 
-            className="p-2 opacity-50 hover:opacity-100 hover:bg-red-500/20 text-red-500 rounded-xl transition-all z-10"
+            className="p-2 opacity-50 hover:opacity-100 hover:bg-red-500/20 text-red-500 rounded-xl transition-all z-10 relative"
             title="Выйти"
           >
             <LogOut className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-4 border border-slate-100 dark:border-slate-700">
+        <div className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-4 border border-slate-100 dark:border-slate-700 relative z-10">
           <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-3 flex items-center gap-2">
             <MapPin className="w-4 h-4" /> Как работают отметки
           </h3>
@@ -271,7 +272,7 @@ export default function ProfilePage() {
           </p>
         </div>
 
-        <div className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-4 border border-slate-100 dark:border-slate-700 mt-4">
+        <div className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-4 border border-slate-100 dark:border-slate-700 mt-4 relative z-10">
           <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4 flex items-center gap-2">
             <Palette className="w-4 h-4" /> Оформление профиля
           </h3>
@@ -318,7 +319,7 @@ export default function ProfilePage() {
         </div>
 
         {profile?.role === 'admin' && (
-          <div className="mt-4">
+          <div className="mt-4 relative z-10">
             <Link 
               to="/admin" 
               className="w-full bg-slate-800 hover:bg-slate-900 dark:bg-white dark:hover:bg-slate-100 dark:text-slate-900 text-white font-bold p-4 rounded-2xl transition-all flex justify-center items-center gap-2 shadow-lg"
