@@ -45,6 +45,19 @@ export default function LeaderboardPage() {
     );
   }
 
+  const handleUpdatePoints = async (userId: string, currentPoints: number, change: number) => {
+    const newPoints = Math.max(0, currentPoints + change);
+    // Optimistic update
+    setStudents(students.map(s => s.id === userId ? { ...s, points: newPoints } : s));
+    
+    await supabase.from('profiles').update({ points: newPoints }).eq('id', userId);
+    // Re-fetch to guarantee correct order
+    fetchLeaderboard();
+  };
+
+  const currentUser = students.find(s => s.id === currentUserId);
+  const isAdmin = currentUser?.role === 'admin';
+
   return (
     <div className="animate-in fade-in duration-300 pb-20 px-2 max-w-lg mx-auto">
       <div className="text-center mb-8 relative">
@@ -62,7 +75,7 @@ export default function LeaderboardPage() {
             <div 
               key={student.id} 
               className={cn(
-                "p-4 rounded-2xl flex items-center gap-4 transition-all border",
+                "p-4 rounded-2xl flex items-center gap-4 transition-all border relative overflow-hidden group",
                 theme.cardClass,
                 isMe && "ring-2 ring-white/50 shadow-lg transform scale-[1.02]"
               )}
@@ -100,9 +113,28 @@ export default function LeaderboardPage() {
                 </div>
               </div>
               
-              <div className="text-right relative z-10">
+              <div className="text-right relative z-10 flex flex-col items-end justify-center">
                 <div className="text-xl font-black drop-shadow-sm">{student.points || 0}</div>
                 <div className="text-[10px] uppercase font-bold opacity-70 tracking-wider">Очков</div>
+                
+                {isAdmin && (
+                  <div className="absolute top-1/2 -translate-y-1/2 right-0 translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all flex flex-col gap-1 bg-black/50 backdrop-blur-md p-1 rounded-xl">
+                    <button 
+                      onClick={() => handleUpdatePoints(student.id, student.points || 0, 10)}
+                      className="w-8 h-8 flex items-center justify-center bg-emerald-500 hover:bg-emerald-400 text-white rounded-lg font-bold shadow-lg active:scale-95 transition-all"
+                      title="Добавить 10 очков"
+                    >
+                      +
+                    </button>
+                    <button 
+                      onClick={() => handleUpdatePoints(student.id, student.points || 0, -10)}
+                      className="w-8 h-8 flex items-center justify-center bg-red-500 hover:bg-red-400 text-white rounded-lg font-bold shadow-lg active:scale-95 transition-all"
+                      title="Убрать 10 очков"
+                    >
+                      -
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           );

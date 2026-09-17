@@ -100,7 +100,7 @@ export const PROFILE_THEMES: ThemeConfig[] = [
     cardClass: 'bg-gradient-to-r from-amber-950 via-yellow-900 to-amber-950 text-white theme-bg-slow border-yellow-500/40 ring-1 ring-yellow-400/30 shadow-[0_0_20px_rgba(250,204,21,0.2)] relative overflow-hidden',
     avatarRingClass: 'discord-ring-expert',
     avatarWrapperClass: 'bg-slate-900 p-[2px]',
-    badge: <Sparkles className="absolute -top-2 -right-2 w-6 h-6 text-yellow-400 fill-yellow-400 drop-shadow-lg z-20 animate-pulse" />,
+    badge: <Sparkles className="absolute -bottom-1 -right-1 w-5 h-5 text-yellow-400 fill-yellow-400 drop-shadow-lg z-20 animate-pulse" />,
     cardEffect: (
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="gold-sparkle" style={{ left: '10%', bottom: '0%', animationDelay: '0s', animationDuration: '4s' }} />
@@ -118,7 +118,7 @@ export const PROFILE_THEMES: ThemeConfig[] = [
     cardClass: 'bg-gradient-to-r from-red-950 via-orange-900 to-red-950 text-white theme-bg-animated border-orange-500/40 ring-1 ring-red-500/30 shadow-[0_0_20px_rgba(239,68,68,0.3)] relative overflow-hidden',
     avatarRingClass: 'discord-ring-magma',
     avatarWrapperClass: 'bg-slate-900 p-[2px]',
-    badge: <Flame className="absolute -bottom-2 -right-2 w-7 h-7 text-orange-500 fill-orange-500 drop-shadow-xl z-20 animate-bounce" />,
+    badge: <Flame className="absolute -bottom-1 -right-1 w-5 h-5 text-orange-500 fill-orange-500 drop-shadow-xl z-20 animate-bounce" />,
     cardEffect: (
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="magma-spark" style={{ left: '10%', bottom: '0%', animationDelay: '0s', animationDuration: '1.5s', transform: 'scale(1.2)' }} />
@@ -156,7 +156,7 @@ export const PROFILE_THEMES: ThemeConfig[] = [
     cardClass: 'bg-gradient-to-tr from-indigo-950 via-slate-900 to-black text-white theme-bg-slow border-indigo-500/40 ring-1 ring-blue-500/30 shadow-[0_0_30px_rgba(99,102,241,0.3)] relative overflow-hidden',
     avatarRingClass: 'discord-ring-cosmic',
     avatarWrapperClass: 'bg-black p-[2px]',
-    badge: <Star className="absolute -top-2 -right-1 w-5 h-5 text-blue-300 fill-blue-300 drop-shadow-xl z-20 animate-pulse" />,
+    badge: <Star className="absolute -bottom-1 -right-1 w-5 h-5 text-blue-300 fill-blue-300 drop-shadow-xl z-20 animate-pulse" />,
     cardEffect: (
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="cosmic-star w-1 h-1" style={{ left: '5%', top: '10%', animationDelay: '0s' }} />
@@ -177,7 +177,7 @@ export const PROFILE_THEMES: ThemeConfig[] = [
     cardClass: 'bg-slate-900 border-transparent bg-clip-border relative before:absolute before:inset-0 before:p-[2px] before:bg-gradient-to-r before:from-fuchsia-500 before:via-cyan-500 before:to-yellow-500 before:-z-10 before:rounded-2xl before:theme-bg-animated shadow-[0_0_30px_rgba(217,70,239,0.4)] text-white overflow-hidden',
     avatarRingClass: 'discord-ring-legend',
     avatarWrapperClass: 'bg-slate-900 p-[2px]',
-    badge: <Flame className="absolute -bottom-2 -right-2 w-7 h-7 text-fuchsia-400 fill-fuchsia-400 drop-shadow-xl z-20 animate-bounce" />,
+    badge: <Flame className="absolute -bottom-1 -right-1 w-5 h-5 text-fuchsia-400 fill-fuchsia-400 drop-shadow-xl z-20 animate-bounce" />,
     effect: <div className="absolute -inset-4 bg-gradient-to-r from-fuchsia-500 via-cyan-500 to-yellow-500 rounded-full blur-xl opacity-30 animate-pulse z-0 pointer-events-none" />,
     cardEffect: (
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden mix-blend-screen opacity-70">
