@@ -30,9 +30,9 @@ export default function DaySelector({ selectedDay, onSelectDay, currentDay }: Da
             className={cn(
               "relative flex-1 flex flex-col items-center justify-center py-2.5 px-1 rounded-2xl transition-all duration-300 min-w-[48px] border",
               isSelected 
-                ? "bg-gradient-to-b from-emerald-400 to-emerald-600 text-white border-transparent shadow-[0_4px_15px_rgba(16,185,129,0.4)] transform -translate-y-1" 
-                : "bg-white dark:bg-slate-800 border-emerald-50 dark:border-slate-700 shadow-sm text-slate-500 hover:border-emerald-200",
-              !isSelected && isCurrent && "text-emerald-600 dark:text-emerald-400 border-emerald-200"
+                ? "bg-gradient-to-b from-[#4facfe] to-[#007AFF] text-white border-transparent shadow-[0_4px_15px_rgba(0,122,255,0.4)] transform -translate-y-1" 
+                : "bg-white dark:bg-slate-800 border-blue-50 dark:border-slate-700 shadow-sm text-slate-500 hover:border-blue-200",
+              !isSelected && isCurrent && "text-[#007AFF] dark:text-[#4facfe] border-blue-200"
             )}
           >
             <span className={cn("text-[10px] font-bold mb-1 tracking-wide", isSelected ? "opacity-90" : "opacity-70")}>
@@ -44,7 +44,7 @@ export default function DaySelector({ selectedDay, onSelectDay, currentDay }: Da
             
             {/* Точка для текущего дня */}
             {isCurrent && !isSelected && (
-              <div className="absolute -bottom-1 w-1.5 h-1.5 bg-emerald-500 rounded-full shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+              <div className="absolute -bottom-1 w-1.5 h-1.5 bg-[#007AFF] rounded-full shadow-[0_0_8px_rgba(0,122,255,0.8)]" />
             )}
           </button>
         );

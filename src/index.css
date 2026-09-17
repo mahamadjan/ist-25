@@ -28,34 +28,34 @@
 }
 
 /* 
-  Solid 3D Cards
+  Solid 3D Cards with Blue Glow
 */
 .glass-card {
   @apply bg-white dark:bg-[#1c1c1e] rounded-[24px];
-  border: 2px solid #e2e8f0; /* В светлой теме - чёткая серая рамка */
+  border: 2px solid #007AFF; /* Синяя обводка */
   box-shadow: 
-    0 8px 0px #cbd5e1, /* Плотная нижняя грань (3D) */
-    0 15px 25px rgba(0,0,0,0.1); /* Мягкая тень под ней */
+    0 8px 0px #0056b3, /* Синяя 3D грань */
+    0 15px 30px rgba(0, 122, 255, 0.25); /* Синий свет (glow) */
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .glass-card:active {
   transform: translateY(6px);
   box-shadow: 
-    0 2px 0px #cbd5e1, 
-    0 5px 10px rgba(0,0,0,0.1);
+    0 2px 0px #0056b3, 
+    0 5px 15px rgba(0, 122, 255, 0.3);
 }
 
 .dark .glass-card {
-  border: 2px solid #334155;
+  border: 2px solid #0a84ff; /* Яркий синий в тёмной теме */
   box-shadow: 
-    0 8px 0px #1e293b,
-    0 15px 25px rgba(0,0,0,0.6);
+    0 8px 0px #004499,
+    0 15px 30px rgba(10, 132, 255, 0.4); /* Сильный синий glow */
 }
 .dark .glass-card:active {
   transform: translateY(6px);
   box-shadow: 
-    0 2px 0px #1e293b, 
-    0 5px 10px rgba(0,0,0,0.5);
+    0 2px 0px #004499, 
+    0 5px 15px rgba(10, 132, 255, 0.5);
 }
 
 /* Animations for Logo and Text */

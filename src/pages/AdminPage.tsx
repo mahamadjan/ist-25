@@ -400,7 +400,7 @@ export default function AdminPage() {
               </div>
               <div className="flex flex-col gap-2 w-full md:w-auto">
                 <div className="flex gap-2">
-                  <button onClick={() => handleViewAttendance(lesson.id)} className="flex-1 md:flex-none p-2 px-4 text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/50 text-sm font-bold">
+                  <button onClick={() => handleViewAttendance(lesson.id)} className="flex-1 md:flex-none p-2 px-4 text-blue-600 bg-blue-50 dark:bg-blue-900/30 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/50 text-sm font-bold">
                     Кто был?
                   </button>
                   <button onClick={() => handleEdit(lesson)} className="p-2 text-blue-600 bg-blue-50 dark:bg-blue-900/30 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/50 flex justify-center items-center">

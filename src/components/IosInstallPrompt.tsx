@@ -38,7 +38,7 @@ export default function IosInstallPrompt() {
 
   return (
     <div className="fixed bottom-20 left-4 right-4 z-50 animate-in slide-in-from-bottom-10 fade-in duration-500">
-      <div className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-emerald-100 dark:border-emerald-900/30 p-4 rounded-2xl shadow-2xl relative">
+      <div className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-blue-100 dark:border-blue-900/30 p-4 rounded-2xl shadow-2xl relative">
         <button 
           onClick={dismissPrompt}
           className="absolute top-2 right-2 p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
@@ -59,7 +59,7 @@ export default function IosInstallPrompt() {
         </div>
         
         {/* Треугольник, указывающий вниз на кнопку поделиться в Safari */}
-        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white dark:bg-slate-800 border-b border-r border-emerald-100 dark:border-emerald-900/30 rotate-45" />
+        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white dark:bg-slate-800 border-b border-r border-blue-100 dark:border-blue-900/30 rotate-45" />
       </div>
     </div>
   );
