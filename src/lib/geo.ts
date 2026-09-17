@@ -1,9 +1,9 @@
-// Координаты для тестирования (временно)
-export const UNI_LAT = 42.875347;
-export const UNI_LON = 74.636079;
+// Координаты университета (по 2GIS)
+export const UNI_LAT = 42.859356;
+export const UNI_LON = 74.667841;
 
-// Максимально допустимое расстояние в метрах
-export const MAX_DISTANCE_METERS = 250;
+// Максимально допустимое расстояние в метрах (радиус)
+export const MAX_DISTANCE_METERS = 200;
 
 /**
  * Вычисляет расстояние между двумя координатами в метрах
