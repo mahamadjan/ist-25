@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { Session } from '@supabase/supabase-js';
-import { MapPin, LogOut, Trophy } from 'lucide-react';
+import { MapPin, LogOut, Trophy, Palette, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Database } from '../types/supabase';
 import Avatar from '../components/Avatar';
+import { getThemeConfig, getAvailableThemes, PROFILE_THEMES } from '../lib/themes';
 
 type Profile = Database['public']['Tables']['profiles']['Row'];
 
@@ -198,10 +199,21 @@ export default function ProfilePage() {
     }
   };
 
+  const handleSelectTheme = async (themeId: string) => {
+    if (!profile || !session) return;
+    setProfile({ ...profile, theme_id: themeId }); // Optimistic update
+    
+    await supabase.from('profiles').update({
+      theme_id: themeId
+    }).eq('id', session.user.id);
+  };
+
+  const currentTheme = getThemeConfig(profile?.theme_id, profile?.points || 0, profile?.role === 'admin');
+  const availableThemes = getAvailableThemes(profile?.points || 0, profile?.role === 'admin');
+
   return (
     <div className="animate-in fade-in duration-300 pb-8 px-2 max-w-lg mx-auto">
-      <div className="glass-card p-6 md:p-8 rounded-3xl mb-8 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none" />
+      <div className={`p-6 md:p-8 rounded-3xl mb-8 relative transition-all duration-500 border ${currentTheme.cardClass}`}>
         
         <div className="flex justify-between items-start mb-6">
           <div className="flex items-center gap-4">
@@ -212,6 +224,7 @@ export default function ProfilePage() {
                 points={profile?.points || 0} 
                 size="lg" 
                 isAdmin={profile?.role === 'admin'} 
+                themeId={profile?.theme_id}
               />
               
               <label className="absolute inset-0 flex items-center justify-center bg-black/50 text-white rounded-full opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity text-xs font-bold text-center p-1 z-20">
@@ -226,15 +239,15 @@ export default function ProfilePage() {
               </label>
             </div>
             
-            <div>
-              <h2 className="text-xl font-black text-slate-800 dark:text-white leading-tight mb-1">
+            <div className="relative z-10">
+              <h2 className="text-xl font-black leading-tight mb-1">
                 {profile?.full_name || 'Студент'}
               </h2>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="text-xs font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-1 rounded-md uppercase tracking-wider">
+              <div className="flex items-center gap-2 mt-1 flex-wrap">
+                <span className="text-xs font-bold bg-black/10 dark:bg-white/10 px-2 py-1 rounded-md uppercase tracking-wider backdrop-blur-sm">
                   {profile?.role === 'admin' ? 'Староста / Админ' : 'Студент'}
                 </span>
-                <span className="text-xs font-bold text-yellow-600 bg-yellow-50 dark:bg-yellow-900/30 px-2 py-1 rounded-md uppercase tracking-wider flex items-center gap-1">
+                <span className="text-xs font-bold bg-black/10 dark:bg-white/10 px-2 py-1 rounded-md uppercase tracking-wider flex items-center gap-1 backdrop-blur-sm">
                   ⭐ {profile?.points || 0}
                 </span>
               </div>
@@ -242,7 +255,7 @@ export default function ProfilePage() {
           </div>
           <button 
             onClick={handleLogout} 
-            className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-all"
+            className="p-2 opacity-50 hover:opacity-100 hover:bg-red-500/20 text-red-500 rounded-xl transition-all z-10"
             title="Выйти"
           >
             <LogOut className="w-5 h-5" />
@@ -260,27 +273,48 @@ export default function ProfilePage() {
 
         <div className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-4 border border-slate-100 dark:border-slate-700 mt-4">
           <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4 flex items-center gap-2">
-            <Trophy className="w-4 h-4" /> Система рангов
+            <Palette className="w-4 h-4" /> Оформление профиля
           </h3>
-          <div className="grid grid-cols-4 gap-2">
-            <div className="text-center flex flex-col items-center">
-              <Avatar name="Л" points={50} size="sm" />
-              <span className="text-[10px] mt-2 font-bold text-emerald-500">50+ очков</span>
-            </div>
-            <div className="text-center flex flex-col items-center">
-              <Avatar name="П" points={100} size="sm" />
-              <span className="text-[10px] mt-2 font-bold text-cyan-500">100+ очков</span>
-            </div>
-            <div className="text-center flex flex-col items-center">
-              <Avatar name="Э" points={250} size="sm" />
-              <span className="text-[10px] mt-2 font-bold text-yellow-500">250+ очков</span>
-            </div>
-            <div className="text-center flex flex-col items-center">
-              <Avatar name="Л" points={500} size="sm" />
-              <span className="text-[10px] mt-2 font-bold text-fuchsia-500">500+ очков</span>
-            </div>
+          <p className="text-xs text-slate-500 mb-4">
+            Темы открываются за очки рейтинга. Выберите тему, чтобы применить её к своей карточке!
+          </p>
+          
+          <div className="space-y-2">
+            {PROFILE_THEMES.map(theme => {
+              const isUnlocked = availableThemes.some(t => t.id === theme.id);
+              const isActive = profile?.theme_id === theme.id || (!profile?.theme_id && theme.id === 'default');
+              
+              return (
+                <button
+                  key={theme.id}
+                  onClick={() => isUnlocked && handleSelectTheme(theme.id)}
+                  disabled={!isUnlocked}
+                  className={`w-full text-left flex items-center gap-3 p-3 rounded-xl border transition-all ${
+                    isActive 
+                      ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 ring-1 ring-blue-500' 
+                      : isUnlocked 
+                        ? 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-blue-300' 
+                        : 'bg-slate-50 dark:bg-slate-900/50 border-slate-100 dark:border-slate-800 opacity-60 cursor-not-allowed'
+                  }`}
+                >
+                  <div className="flex-shrink-0">
+                    <Avatar name={profile?.full_name?.charAt(0) || 'С'} points={profile?.points || 0} size="sm" isAdmin={profile?.role === 'admin'} themeId={theme.id} />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-sm text-slate-800 dark:text-white">{theme.name}</span>
+                      {isActive && <CheckCircle2 className="w-4 h-4 text-blue-500" />}
+                    </div>
+                    {!isUnlocked && (
+                      <span className="text-xs text-slate-400 font-medium block">
+                        Требуется {theme.minPoints} очков
+                      </span>
+                    )}
+                  </div>
+                </button>
+              );
+            })}
           </div>
-          <p className="text-xs text-slate-400 mt-4 text-center">Староста автоматически получает максимальный ранг.</p>
         </div>
 
         {profile?.role === 'admin' && (

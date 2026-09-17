@@ -108,4 +108,55 @@
     border: 2px dotted #10b981;
     animation: spin 10s linear infinite reverse;
   }
+
+  .discord-ring-sakura {
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    border: 3px solid #f472b6;
+    box-shadow: 0 0 15px #f472b6;
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  .discord-ring-cyberpunk {
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: linear-gradient(45deg, #d946ef, #06b6d4, #eab308) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    animation: spin 1s steps(4) infinite;
+  }
+
+  .discord-ring-magma {
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 4px solid #ef4444;
+    border-top-color: #f97316;
+    border-bottom-color: #f97316;
+    animation: spin 2s ease-in-out infinite;
+    box-shadow: 0 0 20px #ef4444;
+  }
+
+  .discord-ring-amethyst {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid #a855f7;
+    box-shadow: inset 0 0 10px #a855f7, 0 0 15px #a855f7;
+    animation: pulse 4s infinite alternate;
+  }
+
+  .discord-ring-cosmic {
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, #4f46e5, transparent, #e0e7ff, transparent, #4f46e5);
+    animation: spin 8s linear infinite reverse;
+    -webkit-mask: radial-gradient(transparent 58%, black 62%);
+    mask: radial-gradient(transparent 58%, black 62%);
+  }
 }

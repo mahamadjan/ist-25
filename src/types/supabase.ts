@@ -92,6 +92,7 @@ export interface Database {
           role: string
           points: number
           avatar_url: string | null
+          theme_id: string
         }
         Insert: {
           id: string
@@ -99,6 +100,7 @@ export interface Database {
           role?: string
           points?: number
           avatar_url?: string | null
+          theme_id?: string
         }
         Update: {
           id?: string
@@ -106,6 +108,7 @@ export interface Database {
           role?: string
           points?: number
           avatar_url?: string | null
+          theme_id?: string
         }
       }
     }

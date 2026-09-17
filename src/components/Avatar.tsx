@@ -1,5 +1,6 @@
-import { User, Sparkles, Flame, Zap } from 'lucide-react';
+import { User } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { getThemeConfig } from '../lib/themes';
 
 interface AvatarProps {
   url?: string | null;
@@ -7,14 +8,11 @@ interface AvatarProps {
   points: number;
   size?: 'sm' | 'md' | 'lg' | 'xl';
   isAdmin?: boolean;
+  themeId?: string | null;
 }
 
-export default function Avatar({ url, name, points, size = 'md', isAdmin = false }: AvatarProps) {
-  let tier = 0;
-  if (isAdmin || points >= 500) tier = 4; // Легенда (всегда у админа)
-  else if (points >= 250) tier = 3; // Эксперт
-  else if (points >= 100) tier = 2; // Продвинутый
-  else if (points >= 50) tier = 1; // Любитель
+export default function Avatar({ url, name, points, size = 'md', isAdmin = false, themeId }: AvatarProps) {
+  const theme = getThemeConfig(themeId, points, isAdmin);
 
   const sizeClasses = {
     sm: 'w-10 h-10',
@@ -30,41 +28,11 @@ export default function Avatar({ url, name, points, size = 'md', isAdmin = false
     xl: 'w-[102px] h-[102px] text-5xl'
   };
 
-  let wrapperClass = '';
-  let badge = null;
-  let effect = null;
-  let customRing = null;
-
-  switch (tier) {
-    case 1:
-      wrapperClass = 'bg-white dark:bg-slate-800 p-[2px]';
-      customRing = <div className="discord-ring-novice z-0 pointer-events-none" />;
-      break;
-    case 2:
-      wrapperClass = 'bg-white dark:bg-slate-800 p-[2px]';
-      customRing = <div className="discord-ring-regular z-0 pointer-events-none" />;
-      badge = <Zap className="absolute -bottom-1 -right-1 w-5 h-5 text-cyan-400 fill-cyan-400 drop-shadow-md z-20" />;
-      break;
-    case 3:
-      wrapperClass = 'bg-white dark:bg-slate-800 p-[2px]';
-      customRing = <div className="discord-ring-expert z-0 pointer-events-none" />;
-      badge = <Sparkles className="absolute -top-2 -right-2 w-6 h-6 text-yellow-300 fill-yellow-300 drop-shadow-lg z-20 animate-pulse" />;
-      break;
-    case 4:
-      wrapperClass = 'bg-white dark:bg-slate-800 p-[2px]';
-      customRing = <div className="discord-ring-legend z-0 pointer-events-none" />;
-      badge = <Flame className="absolute -bottom-2 -right-2 w-7 h-7 text-fuchsia-400 fill-fuchsia-400 drop-shadow-xl z-20 animate-bounce" />;
-      effect = <div className="absolute -inset-4 bg-gradient-to-r from-fuchsia-500 via-cyan-500 to-yellow-500 rounded-full blur-xl opacity-50 animate-pulse z-0" />;
-      break;
-    default:
-      wrapperClass = 'bg-slate-200 dark:bg-slate-700 p-[2px]';
-  }
-
   return (
     <div className="relative inline-flex items-center justify-center">
-      {effect}
-      <div className={cn("rounded-full flex items-center justify-center relative z-10", wrapperClass, sizeClasses[size])}>
-        {customRing}
+      {theme.effect}
+      <div className={cn("rounded-full flex items-center justify-center relative z-10", theme.avatarWrapperClass, sizeClasses[size])}>
+        {theme.avatarRingClass && <div className={cn(theme.avatarRingClass, "z-0 pointer-events-none")} />}
         {url ? (
           <img 
             src={url} 
@@ -76,7 +44,7 @@ export default function Avatar({ url, name, points, size = 'md', isAdmin = false
             {name ? name.charAt(0).toUpperCase() : <User className="w-1/2 h-1/2" />}
           </div>
         )}
-        {badge}
+        {theme.badge}
       </div>
     </div>
   );
