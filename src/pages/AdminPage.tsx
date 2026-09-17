@@ -154,7 +154,7 @@ export default function AdminPage() {
       .from('attendance')
       .select('*')
       .eq('lesson_id', lessonId)
-      .order('date', { ascending: false });
+      .order('created_at', { ascending: false });
       
     if (data && data.length > 0) {
       // Получаем имена студентов вручную, так как прямого FK нет
@@ -171,10 +171,17 @@ export default function AdminPage() {
         });
       }
       
-      setAttendanceList(data.map(item => ({
-        date: item.date,
-        full_name: profileMap[item.student_id] || 'Неизвестный студент'
-      })));
+      setAttendanceList(data.map(item => {
+        // Форматируем время из created_at (или fall back на date)
+        const checkInTime = item.created_at 
+          ? new Date(item.created_at).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
+          : item.date;
+
+        return {
+          date: checkInTime,
+          full_name: profileMap[item.student_id] || 'Неизвестный студент'
+        };
+      }));
     } else {
       setAttendanceList([]);
     }
