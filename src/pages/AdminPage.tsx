@@ -19,6 +19,7 @@ export default function AdminPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [viewingAttendance, setViewingAttendance] = useState<string | null>(null);
   const [attendanceList, setAttendanceList] = useState<{full_name: string, date: string}[]>([]);
+  const [attendanceLoading, setAttendanceLoading] = useState(false);
   
   const initialForm = {
     day_of_week: 1,
@@ -146,6 +147,7 @@ export default function AdminPage() {
     }
     
     setViewingAttendance(lessonId);
+    setAttendanceLoading(true);
     
     // Получаем отметки
     const { data } = await supabase
@@ -176,6 +178,8 @@ export default function AdminPage() {
     } else {
       setAttendanceList([]);
     }
+    
+    setAttendanceLoading(false);
   };
 
   if (!session) {
@@ -404,7 +408,9 @@ export default function AdminPage() {
             {viewingAttendance === lesson.id && (
               <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-100 dark:border-slate-700 animate-in slide-in-from-top-2">
                 <h4 className="font-bold mb-3 text-sm">Журнал посещений:</h4>
-                {attendanceList.length === 0 ? (
+                {attendanceLoading ? (
+                  <p className="text-sm text-slate-500 animate-pulse">Загрузка данных...</p>
+                ) : attendanceList.length === 0 ? (
                   <p className="text-sm text-slate-500">Пока никто не отмечался на этой паре.</p>
                 ) : (
                   <ul className="space-y-2">
