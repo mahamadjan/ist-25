@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabase';
 import { Session } from '@supabase/supabase-js';
 import { Plus, Pencil, Trash2, LogOut } from 'lucide-react';
 import { Database } from '../types/supabase';
+import { sendTelegramNotification } from '../lib/telegram';
 
 type Lesson = Database['public']['Tables']['schedule']['Row'];
 
@@ -72,9 +73,15 @@ export default function AdminPage() {
     supabase.auth.signOut();
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (lesson: Lesson) => {
     if (confirm('Вы действительно хотите удалить это занятие?')) {
-      await supabase.from('schedule').delete().eq('id', id);
+      await supabase.from('schedule').delete().eq('id', lesson.id);
+      
+      const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+      await sendTelegramNotification(
+        `🚨 <b>Отмена пары</b>\n\nУдалено занятие: <b>${lesson.subject}</b>\n📅 ${days[lesson.day_of_week - 1]}, ${lesson.start_time.slice(0, 5)}`
+      );
+      
       fetchLessons();
     }
   };
@@ -99,10 +106,18 @@ export default function AdminPage() {
     e.preventDefault();
     setLoading(true);
     
+    const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+    
     if (editingId) {
       await supabase.from('schedule').update(formData as any).eq('id', editingId);
+      await sendTelegramNotification(
+        `🔄 <b>Изменение в расписании</b>\n\nИзменено занятие: <b>${formData.subject}</b>\n📅 ${days[formData.day_of_week - 1]}, ${formData.start_time}\n📍 Кабинет: ${formData.room}`
+      );
     } else {
       await supabase.from('schedule').insert([formData as any]);
+      await sendTelegramNotification(
+        `✅ <b>Новая пара</b>\n\nДобавлено занятие: <b>${formData.subject}</b>\n📅 ${days[formData.day_of_week - 1]}, ${formData.start_time}\n👨‍🏫 Преподаватель: ${formData.teacher}\n📍 Кабинет: ${formData.room}`
+      );
     }
     
     setEditingId(null);
@@ -302,7 +317,7 @@ export default function AdminPage() {
               <button onClick={() => handleEdit(lesson)} className="flex-1 md:flex-none p-2 text-blue-600 bg-blue-50 dark:bg-blue-900/30 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/50 flex justify-center items-center">
                 <Pencil className="w-5 h-5" />
               </button>
-              <button onClick={() => handleDelete(lesson.id)} className="flex-1 md:flex-none p-2 text-red-600 bg-red-50 dark:bg-red-900/30 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/50 flex justify-center items-center">
+              <button onClick={() => handleDelete(lesson)} className="flex-1 md:flex-none p-2 text-red-600 bg-red-50 dark:bg-red-900/30 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/50 flex justify-center items-center">
                 <Trash2 className="w-5 h-5" />
               </button>
             </div>
