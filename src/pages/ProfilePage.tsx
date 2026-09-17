@@ -317,13 +317,22 @@ export default function ProfilePage() {
                         {isActive && <CheckCircle2 className="w-4 h-4 text-emerald-400 drop-shadow-md" />}
                       </div>
                       
-                      {!isUnlocked && (
-                        <div className="bg-black/40 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1">
-                          <span className="text-[10px] font-bold uppercase text-white tracking-wider drop-shadow-md">
-                            {theme.minPoints} очков
-                          </span>
-                        </div>
-                      )}
+                      <div className="flex items-center gap-2">
+                        {isActive && (
+                          <div className="bg-emerald-500/20 px-2 py-1 rounded-md backdrop-blur-sm border border-emerald-500/30">
+                            <span className="text-[10px] font-black uppercase text-emerald-400 tracking-wider flex items-center gap-1">
+                              <CheckCircle2 className="w-3 h-3" /> Выбрано
+                            </span>
+                          </div>
+                        )}
+                        {!isActive && (
+                          <div className="bg-black/40 backdrop-blur-sm px-2 py-1 rounded-md border border-white/10">
+                            <span className="text-[10px] font-bold uppercase text-white tracking-wider drop-shadow-md">
+                              {theme.minPoints > 0 ? `${theme.minPoints} очков` : 'Бесплатно'}
+                            </span>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </button>
