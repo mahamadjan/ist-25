@@ -28,30 +28,32 @@
 }
 
 /* 
-  Solid 3D Cards with Blue Glow
+  Solid 3D Cards with Blue Glow (Cache Busted)
 */
-.glass-card {
-  @apply bg-white dark:bg-[#1c1c1e] rounded-[24px];
-  border: 2px solid #007AFF; /* Синяя обводка */
+.ios-card {
+  background-color: white;
+  border-radius: 24px;
+  border: 2px solid #007AFF;
   box-shadow: 
-    0 8px 0px #0056b3, /* Синяя 3D грань */
-    0 15px 30px rgba(0, 122, 255, 0.25); /* Синий свет (glow) */
+    0 8px 0px #0056b3,
+    0 15px 30px rgba(0, 122, 255, 0.25);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.glass-card:active {
+.ios-card:active {
   transform: translateY(6px);
   box-shadow: 
     0 2px 0px #0056b3, 
     0 5px 15px rgba(0, 122, 255, 0.3);
 }
 
-.dark .glass-card {
-  border: 2px solid #0a84ff; /* Яркий синий в тёмной теме */
+.dark .ios-card {
+  background-color: #1c1c1e;
+  border: 2px solid #0a84ff;
   box-shadow: 
     0 8px 0px #004499,
-    0 15px 30px rgba(10, 132, 255, 0.4); /* Сильный синий glow */
+    0 15px 30px rgba(10, 132, 255, 0.4);
 }
-.dark .glass-card:active {
+.dark .ios-card:active {
   transform: translateY(6px);
   box-shadow: 
     0 2px 0px #004499, 
